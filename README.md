@@ -6,9 +6,7 @@ This is a course project assgined by USTSV Javascript course
 
 A user list web application.
 
-Features:
-
-- Responsive UI
+Design Document [(Google Doc)](https://docs.google.com/document/d/1zxH7jPp4s4knfmZNDPJFIGaeDMrEUH9tlpdAafycWvg/edit?usp=sharing)
 
 Technology Stack:
 
