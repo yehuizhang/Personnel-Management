@@ -6,6 +6,6 @@ connectDB();
 const app = express();
 app.use(express.json());
 
-// app.use('/api/auth', require('./api/auth'));
+app.use('/api/user', require('./api/user'));
 
 app.listen(PORT, () => console.log(`The server is running on ${PORT}`));
