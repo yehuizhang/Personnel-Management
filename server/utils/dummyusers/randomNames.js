@@ -1,5 +1,6 @@
 const firstNames = require('./firstNames-50');
 const lastNames = require('./lastNames-30');
+const randomDates = require('./randomDates');
 
 const randomPick = list => {
   const idx = Math.floor(Math.random() * list.length);
@@ -7,15 +8,14 @@ const randomPick = list => {
 };
 
 module.exports = function(numOfNames = 10) {
-  const names = [];
-  for (let i = 0; i < numOfNames; i++) {
-    const first = randomPick(firstNames);
-    const last = randomPick(lastNames);
-    names.push({
-      firstName: first[0],
-      lastName: last,
-      sex: first[1],
-    });
-  }
-  return names;
+  const dobs = randomDates('1970-01-01', '1999-12-25', numOfNames);
+  return dobs.map(dob => {
+    const user = {};
+    const firstAndSex = randomPick(firstNames);
+    user.firstName = firstAndSex[0];
+    user.sex = firstAndSex[1];
+    user.dob = dob;
+    user.lastName = randomPick(lastNames);
+    return user;
+  });
 };
