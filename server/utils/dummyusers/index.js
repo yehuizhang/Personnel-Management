@@ -27,7 +27,7 @@ const emailGenerator = (firstName, lastName, dob) => {
   )}${dob.substring(0, 4)}@dod.gov`.toLowerCase();
 };
 
-const dummyUserBasic = numOfUsers => {
+const dummyUserBasic = (numOfUsers = 10) => {
   const names = randomNames(numOfUsers);
   const phoneNumbers = randomPhoneNumber(numOfUsers);
   return names.map((n, i) => ({
@@ -35,7 +35,8 @@ const dummyUserBasic = numOfUsers => {
     sex: n.sex,
     phone: phoneNumbers[i],
     email: emailGenerator(n.firstName, n.lastName, n.dob),
+    rank: Math.floor(Math.random() * 9),
   }));
 };
 
-console.log(dummyUserBasic(10));
+module.exports = dummyUserBasic;
