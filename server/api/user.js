@@ -1,5 +1,9 @@
 const express = require('express');
-const { getUserList } = require('./utils/userUtils');
+const {
+  getUserList,
+  getUserById,
+  getUsersWithHigherRank,
+} = require('./utils/userUtils');
 
 const router = express.Router();
 
@@ -11,13 +15,21 @@ router.get('/', async (req, res) => {
   return getUserList(sort, direction, page, res);
 });
 
-// @route GET api/user/rank/:level
-// @desc Get all user’s id, name and rank who has higher rank than the level
-// @access Public
-
 // @route GET api/user/:id
 // @desc Get the user info by id
 // @access Public
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  return getUserById(id, res);
+});
+
+// @route GET api/user/rank/:level
+// @desc Get all user’s id, name and rank who has higher rank than the level
+// @access Public
+router.get('/rank/:level', async (req, res) => {
+  const { level } = req.params;
+  return getUsersWithHigherRank(level, res);
+});
 
 // @route POST api/user
 // @desc Create a new user
