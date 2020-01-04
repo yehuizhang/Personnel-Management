@@ -1,6 +1,5 @@
 const express = require('express');
-
-const User = require('../models/users');
+const { getUserList } = require('./utils/userUtils');
 
 const router = express.Router();
 
@@ -8,8 +7,8 @@ const router = express.Router();
 // @desc All users from db
 // @access Public
 router.get('/', async (req, res) => {
-  const { sort, direction, page, per_page: perPage } = req.query;
-  return res.json({ sort, direction, page, perPage });
+  const { sort, direction, page } = req.query;
+  return getUserList(sort, direction, page, res);
 });
 
 // @route GET api/user/rank/:level
