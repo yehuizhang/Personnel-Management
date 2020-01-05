@@ -11,6 +11,7 @@ const getUserList = async (sort, direction, page, res) => {
     sort: { [sort]: direction },
     page,
     limit: 5,
+    populate: { path: 'superior', select: ['id', 'name'] },
   };
   try {
     const result = await User.paginate({}, options);
@@ -22,7 +23,7 @@ const getUserList = async (sort, direction, page, res) => {
 
 const getUserById = async (id, res) => {
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate('superior', ['id', 'name']);
     if (!user) {
       return errorHandling(res, 400, 'The user does not exist');
     }
