@@ -6,17 +6,30 @@ const errorHandling = (res, code, message) => {
   });
 };
 
-const getUserList = async (sort, direction, page, res) => {
+const getUserList = async (sort, direction, page, keyword, res) => {
   const options = {
     sort: { [sort]: direction },
     page,
     limit: 5,
     populate: { path: 'superior', select: ['id', 'name'] },
   };
+  const regex = keyword && { $regex: new RegExp(keyword, 'i') };
+  const query = regex && {
+    $or: [
+      { name: regex },
+      { sex: regex },
+      { rank: regex },
+      { phone: regex },
+      { email: regex },
+      // { startDate: regex },
+      // { superior: regex },
+    ],
+  };
   try {
-    const result = await User.paginate({}, options);
+    const result = await User.paginate(query, options);
     return res.json(result);
   } catch (error) {
+    console.error(error.message);
     errorHandling(res, 500, 'Unable to retrieve user list from db');
   }
 };

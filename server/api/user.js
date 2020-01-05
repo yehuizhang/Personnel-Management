@@ -14,8 +14,8 @@ const router = express.Router();
 // @desc All users from db
 // @access Public
 router.get('/', (req, res) => {
-  const { sort, direction, page } = req.query;
-  return getUserList(sort, direction, page, res);
+  const { sort, direction, page, keyword } = req.query;
+  return getUserList(sort, direction, page, keyword, res);
 });
 
 // @route GET api/user/:id
