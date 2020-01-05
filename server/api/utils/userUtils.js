@@ -1,7 +1,7 @@
 const User = require('../../models/users');
 
 const errorHandling = (res, code, message) => {
-  return res.status(500).json({
+  return res.status(code).json({
     message,
   });
 };
