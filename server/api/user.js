@@ -42,13 +42,12 @@ router.post('/', (req, res) => {
   return addUser(user, res);
 });
 
-// @route PUT api/user/:id
-// @desc Update user by id
+// @route PUT api/user/
+// @desc Update user
 // @access Public
-router.put('/:id', (req, res) => {
+router.put('/', (req, res) => {
   const { user } = req.body;
-  const { id } = req.params;
-  return updateUser(id, user, res);
+  return updateUser(user, res);
 });
 
 // @route DELETE api/user/:id

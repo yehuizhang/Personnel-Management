@@ -50,7 +50,7 @@ const addUserToSuperior = async (user, superiorId) => {
     'rank',
   ]);
   if (!superior) {
-    throw "User's superior does not exist";
+    throw { message: "User's new superior does not exist" };
   }
   superior.dsList = [...superior.dsList, { id: user.id, rank: user.rank }]
     .sort((a, b) => Number(b.rank) - Number(a.rank))
@@ -60,6 +60,9 @@ const addUserToSuperior = async (user, superiorId) => {
 
 const removeUserFromSuperior = async (userId, superiorId) => {
   const superior = await User.findById(superiorId);
+  if (!superior) {
+    throw { message: "User's previous superior does not exist" };
+  }
   superior.dsList = superior.dsList.filter(id => id.toString() !== userId);
   await superior.save();
 };
@@ -69,12 +72,46 @@ const addUser = async (userInfo, res) => {
   try {
     user = new User({ ...userInfo });
     await user.save();
-    addUserToSuperior(user, user.superior);
+    await addUserToSuperior(user, user.superior);
     return res.status(200).json({ message: 'User added successfully' });
   } catch (error) {
     console.error(error.message);
     await user.remove();
     return errorHandling(res, 500, 'Unable to add user at this time.');
+  }
+};
+
+const updateUser = async (updatedUserInfo, res) => {
+  try {
+    let user = await User.findById(updatedUserInfo.id);
+    if (!user) {
+      return errorHandling(res, 400, 'Unable to update user info.');
+    }
+    if (user.superior) {
+      if (updatedUserInfo.superior) {
+        if (user.superior.toString() !== updatedUserInfo.superior.toString()) {
+          await removeUserFromSuperior(
+            user.id.toString(),
+            user.superior.toString()
+          );
+          await addUserToSuperior(user, updatedUserInfo.superior.toString());
+        }
+      } else {
+        await removeUserFromSuperior(
+          user.id.toString(),
+          user.superior.toString()
+        );
+      }
+    } else if (updatedUserInfo.superior) {
+      await addUserToSuperior(user, updatedUserInfo.superior.toString());
+    }
+    Object.assign(user, { ...updatedUserInfo });
+    console.log(user);
+    await user.save();
+    return res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    return errorHandling(res, 500, error.message);
   }
 };
 
@@ -85,7 +122,10 @@ const deleteUser = async (id, res) => {
       return errorHandling(res, 400, 'Delete Failed. The user does not exist');
     }
     if (user.superior) {
-      removeUserFromSuperior(user.id.toString(), user.superior.toString());
+      await removeUserFromSuperior(
+        user.id.toString(),
+        user.superior.toString()
+      );
     }
     if (user.dsList.length > 0) {
       const dsIds = user.dsList.map(id => ({
@@ -106,5 +146,6 @@ module.exports = {
   getUserById,
   getUsersWithHigherRank,
   addUser,
+  updateUser,
   deleteUser,
 };
