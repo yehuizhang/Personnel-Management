@@ -44,28 +44,36 @@ const getUsersWithHigherRank = async (level, res) => {
   }
 };
 
+const addUserToSuperior = async (user, superiorId) => {
+  const superior = await User.findById(superiorId).populate('dsList', [
+    'id',
+    'rank',
+  ]);
+  if (!superior) {
+    throw "User's superior does not exist";
+  }
+  superior.dsList = [...superior.dsList, { id: user.id, rank: user.rank }]
+    .sort((a, b) => Number(b.rank) - Number(a.rank))
+    .map(u => u.id);
+  await superior.save();
+};
+
+const removeUserFromSuperior = async (userId, superiorId) => {
+  const superior = await User.findById(superiorId);
+  superior.dsList = superior.dsList.filter(id => id.toString() !== userId);
+  await superior.save();
+};
+
 const addUser = async (userInfo, res) => {
+  let user;
   try {
-    const user = new User({ ...userInfo });
-    if (userInfo.superior) {
-      const superior = await User.findById(userInfo.superior).populate(
-        'dsList',
-        ['id', 'rank']
-      );
-      if (!superior) {
-        return errorHandling(res, 400, "User's superior does not exist");
-      }
-      await user.save();
-      superior.dsList = [...superior.dsList, user]
-        .sort((a, b) => Number(b.rank) - Number(a.rank))
-        .map(u => u.id);
-      await superior.save();
-    } else {
-      await user.save();
-    }
+    user = new User({ ...userInfo });
+    await user.save();
+    addUserToSuperior(user, user.superior);
     return res.status(200).json({ message: 'User added successfully' });
   } catch (error) {
     console.error(error.message);
+    await user.remove();
     return errorHandling(res, 500, 'Unable to add user at this time.');
   }
 };
@@ -77,11 +85,7 @@ const deleteUser = async (id, res) => {
       return errorHandling(res, 400, 'Delete Failed. The user does not exist');
     }
     if (user.superior) {
-      const superior = await User.findById(user.superior);
-      superior.dsList = superior.dsList.filter(
-        id => id.toString() !== user.id.toString()
-      );
-      await superior.save();
+      removeUserFromSuperior(user.id.toString(), user.superior.toString());
     }
     if (user.dsList.length > 0) {
       const dsIds = user.dsList.map(id => ({

@@ -4,6 +4,7 @@ const {
   getUserById,
   getUsersWithHigherRank,
   addUser,
+  updateUser,
   deleteUser,
 } = require('./utils/userUtils');
 
@@ -44,6 +45,11 @@ router.post('/', (req, res) => {
 // @route PUT api/user/:id
 // @desc Update user by id
 // @access Public
+router.put('/:id', (req, res) => {
+  const { user } = req.body;
+  const { id } = req.params;
+  return updateUser(id, user, res);
+});
 
 // @route DELETE api/user/:id
 // @desc Delete user by id
