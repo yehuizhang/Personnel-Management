@@ -73,7 +73,9 @@ const addUser = async (userInfo, res) => {
   try {
     user = new User({ ...userInfo });
     await user.save();
-    await addUserToSuperior(user, user.superior);
+    if (user.superior) {
+      await addUserToSuperior(user, user.superior);
+    }
     return res.status(200).json({ message: 'User added successfully' });
   } catch (error) {
     console.error(error.message);
