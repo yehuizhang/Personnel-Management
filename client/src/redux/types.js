@@ -1,2 +1,5 @@
 export const SET_LOADING = 'SET_LOADING';
 export const UNSET_LOADING = 'UNSET_LOADING';
+
+export const SET_NOTIFIER = 'SET_NOTIFIER';
+export const UNSET_NOTIFIER = 'UNSET_NOTIFIER';
