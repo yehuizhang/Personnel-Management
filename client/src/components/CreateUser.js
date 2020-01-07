@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { setNotifier } from '../redux/actions/notifier';
+import loadPotentialSuperiors from '../util/loadPotentialSuperiors';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -16,9 +17,23 @@ import Checkbox from '@material-ui/core/Checkbox';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Avatar from '@material-ui/core/Avatar';
 import { FormLabel } from '@material-ui/core';
 
-const ranks = [
+const rankNameToLevel = new Map([
+  ['Private', 0],
+  ['Specialist', 1],
+  ['Corporal', 2],
+  ['Sergeant', 3],
+  ['Warrant Officer', 4],
+  ['Lieutenant', 5],
+  ['Captain', 6],
+  ['Major', 7],
+  ['Colonel', 8],
+  ['General', 9],
+]);
+
+const rankLevels = [
   ['Private', 'https://i.ibb.co/wSjWFhy/rank-0.jpg'],
   ['Specialist', 'https://i.ibb.co/8rNRX7h/rank-1.jpg'],
   ['Corporal', 'https://i.ibb.co/GW18ZW2/rank-2.jpg'],
@@ -61,7 +76,7 @@ const CreateUser = ({ setNotifier }) => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
-    avatar: ranks[0][1],
+    avatar: rankLevels[0][1],
     name: '',
     rank: 0,
     sex: '',
@@ -71,14 +86,24 @@ const CreateUser = ({ setNotifier }) => {
     superior: '',
   });
 
+  const [fullPotentialSuperiors, setFullPotentialSuperiors] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const fullSuperiors = await loadPotentialSuperiors(0);
+      setFullPotentialSuperiors(fullSuperiors);
+    }
+    fetchData();
+  }, []);
+
   const handleFormChange = e => {
     switch (e.target.name) {
       case 'rank':
-        if (formData.avatar === ranks[formData.rank][1]) {
+        if (formData.avatar === rankLevels[formData.rank][1]) {
           const newRank = Number(e.target.value);
           setFormData({
             ...formData,
-            avatar: ranks[newRank][1],
+            avatar: rankLevels[newRank][1],
             rank: newRank,
           });
         } else {
@@ -89,6 +114,14 @@ const CreateUser = ({ setNotifier }) => {
         }
         break;
       case 'avatar':
+        const file = e.target.files[0];
+        if (file.size > 1 << 21) {
+          setNotifier(
+            'error',
+            'Sorry, your image exceeds the allowed maximum size(2 MB).'
+          );
+          return;
+        }
         console.log(e.target.files);
         break;
       default:
@@ -101,8 +134,8 @@ const CreateUser = ({ setNotifier }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    // console.log(formData);
-    setNotifier('success', 'hello');
+    let hasError = false;
+    console.log(formData);
   };
 
   return (
@@ -113,12 +146,17 @@ const CreateUser = ({ setNotifier }) => {
           Create New Soldier
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+          <Grid container spacing={2} justify="center">
+            <Grid container item xs={12} md={6}>
               <Grid item xs={12}>
-                <img src={formData.avatar} alt="user avatar" />
+                <Typography component="h1" variant="h6" align="center">
+                  Avatar
+                </Typography>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} align="center">
+                <img src={formData.avatar} alt="avatar" />
+              </Grid>
+              <Grid item xs={12} align="center">
                 <input
                   type="file"
                   accept="image/*"
@@ -149,27 +187,13 @@ const CreateUser = ({ setNotifier }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel>Rank</InputLabel>
-                  <Select
-                    name="rank"
-                    value={formData.rank}
-                    onChange={handleFormChange}
-                  >
-                    {ranks.map((rank, i) => (
-                      <MenuItem value={i} key={i}>
-                        {rank[0]} ({i})
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12}>
                 <FormControl
                   component="fieldset"
                   className={classes.formControl}
                 >
-                  <FormLabel component="legend">Sex</FormLabel>
+                  <FormLabel component="legend" required>
+                    Sex
+                  </FormLabel>
                   <FormGroup row>
                     <FormControlLabel
                       control={
@@ -196,6 +220,50 @@ const CreateUser = ({ setNotifier }) => {
                       label="Female"
                     />
                   </FormGroup>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl className={classes.formControl} required>
+                  <InputLabel>Rank</InputLabel>
+                  <Select
+                    name="rank"
+                    value={formData.rank}
+                    onChange={handleFormChange}
+                  >
+                    {formData.superior
+                      ? rankLevels.map(
+                          (rank, i) =>
+                            i < formData.superior.rank && (
+                              <MenuItem value={i} key={i}>
+                                {rank[0]} ({i})
+                              </MenuItem>
+                            )
+                        )
+                      : rankLevels.map((rank, i) => (
+                          <MenuItem value={i} key={i}>
+                            {rank[0]} ({i})
+                          </MenuItem>
+                        ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControl className={classes.formControl}>
+                  <InputLabel>Superior</InputLabel>
+                  <Select
+                    name="superior"
+                    value={formData.superior}
+                    onChange={handleFormChange}
+                  >
+                    {fullPotentialSuperiors.map(
+                      sup =>
+                        sup.rank > formData.rank && (
+                          <MenuItem value={sup} key={sup.id}>
+                            {sup.name} ({sup.rank})
+                          </MenuItem>
+                        )
+                    )}
+                  </Select>
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
