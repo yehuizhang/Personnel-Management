@@ -51,7 +51,7 @@ const getUsersWithHigherRank = async (level, res) => {
     sort: { rank: 'asc' },
   };
   try {
-    if (!Number(level)) {
+    if (isNaN(level)) {
       throw { message: 'Invalid parameter' };
     }
     const users = await User.find(
