@@ -4,17 +4,13 @@ import { Provider } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import green from '@material-ui/core/colors/green';
-import lightBlue from '@material-ui/core/colors/lightBlue';
-import amber from '@material-ui/core/colors/amber';
 
 import store from './redux/store';
-import { Home, CreateUser, EditUser, Notifier, Spinner } from './components';
+import { Home, CreateUser, EditUser, Spinner } from './components';
 
 const theme = createMuiTheme({
   palette: {
     background: {
-      default: 'white',
       default: '#fff',
     },
   },
@@ -33,7 +29,6 @@ function App() {
             </Switch>
           </Router>
           <Spinner />
-          <Notifier />
         </SnackbarProvider>
       </ThemeProvider>
     </Provider>

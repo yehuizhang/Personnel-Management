@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setNotifier } from '../redux/actions/notifier';
+import { useSnackbar } from 'notistack';
 import loadPotentialSuperiors from '../util/loadPotentialSuperiors';
+import formValidator from '../util/formValidator';
+import notifierOption from '../util/notifierOption';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -72,7 +74,7 @@ const useStyles = makeStyles(theme => ({
   // },
 }));
 
-const CreateUser = ({ setNotifier }) => {
+const CreateUser = () => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -87,6 +89,7 @@ const CreateUser = ({ setNotifier }) => {
   });
 
   const [fullPotentialSuperiors, setFullPotentialSuperiors] = useState([]);
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   useEffect(() => {
     async function fetchData() {
@@ -116,9 +119,9 @@ const CreateUser = ({ setNotifier }) => {
       case 'avatar':
         const file = e.target.files[0];
         if (file.size > 1 << 21) {
-          setNotifier(
-            'error',
-            'Sorry, your image exceeds the allowed maximum size(2 MB).'
+          enqueueSnackbar(
+            'Sorry, your image exceeds the allowed maximum size(2 MB).',
+            notifierOption(closeSnackbar)
           );
           return;
         }
@@ -316,4 +319,4 @@ const CreateUser = ({ setNotifier }) => {
   );
 };
 
-export default connect(null, { setNotifier })(CreateUser);
+export default CreateUser;

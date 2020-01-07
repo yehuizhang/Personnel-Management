@@ -1,13 +1,7 @@
-import {
-  SET_LOADING,
-  UNSET_LOADING,
-  SET_NOTIFIER,
-  UNSET_NOTIFIER,
-} from '../types';
+import { SET_LOADING, UNSET_LOADING } from '../types';
 
 const initialState = {
   isLoading: false,
-  notifications: [],
 };
 
 export default function(state = initialState, action) {
@@ -22,22 +16,6 @@ export default function(state = initialState, action) {
       return {
         ...state,
         isLoading: false,
-      };
-    case SET_NOTIFIER:
-      return {
-        ...state,
-        notifications: [
-          ...state.notifications,
-          {
-            ...payload,
-          },
-        ],
-      };
-    case UNSET_NOTIFIER:
-      const { key } = payload;
-      return {
-        ...state,
-        notifications: state.notifications.filter(n => n.key !== key),
       };
     default:
       return state;
