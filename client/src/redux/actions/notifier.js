@@ -1,7 +1,7 @@
 import { SET_NOTIFIER, UNSET_NOTIFIER } from '../types';
 import uuid from 'uuid/v4';
 
-export const setNotifier = (variant, message) => dispatch => {
+export const setNotifier = (variant = 'error', message) => dispatch => {
   const key = uuid();
   dispatch({
     type: SET_NOTIFIER,

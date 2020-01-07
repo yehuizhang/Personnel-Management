@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { setNotifier } from '../redux/actions/notifier';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -55,7 +57,7 @@ const useStyles = makeStyles(theme => ({
   // },
 }));
 
-const CreateUser = () => {
+const CreateUser = ({ setNotifier }) => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
@@ -99,7 +101,8 @@ const CreateUser = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(formData);
+    // console.log(formData);
+    setNotifier('success', 'hello');
   };
 
   return (
@@ -245,4 +248,4 @@ const CreateUser = () => {
   );
 };
 
-export default CreateUser;
+export default connect(null, { setNotifier })(CreateUser);

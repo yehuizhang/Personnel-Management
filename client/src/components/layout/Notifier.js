@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 
@@ -14,6 +14,7 @@ const Notifier = ({ notifications, unsetNotifier }) => {
   useEffect(() => {
     notifications.forEach(({ key, variant, message }) => {
       if (!displayed.includes(key)) {
+        console.log('called', key);
         enqueueSnackbar(message, {
           key,
           variant,
@@ -21,7 +22,9 @@ const Notifier = ({ notifications, unsetNotifier }) => {
             <IconButton
               size="small"
               aria-label="close"
-              onClick={() => unsetNotifier(key)}
+              onClick={() => {
+                closeSnackbar(key);
+              }}
             >
               <CloseIcon fontSize="small" />
             </IconButton>
@@ -34,11 +37,8 @@ const Notifier = ({ notifications, unsetNotifier }) => {
         setDisplayed([...displayed, key]);
       }
     });
-    return () => {
-      cleanup;
-    };
-  }, [input]);
-  return <div></div>;
+  });
+  return null;
 };
 
 const mapStateToProps = state => ({
