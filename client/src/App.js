@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import store from './redux/store';
-import { Home, CreateUser, EditUser } from './components';
+import { Home, CreateUser, EditUser, Spinner } from './components';
 
 function App() {
   return (
@@ -15,6 +15,7 @@ function App() {
           <Route path="/" component={Home} />
         </Switch>
       </Router>
+      <Spinner />
     </Provider>
   );
 }
