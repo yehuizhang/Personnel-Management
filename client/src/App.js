@@ -9,7 +9,7 @@ import { Home, CreateUser, EditUser, Notifier, Spinner } from './components';
 function App() {
   return (
     <Provider store={store}>
-      <SnackbarProvider>
+      <SnackbarProvider maxSnack={5}>
         <Router>
           <Switch>
             <Route exact path="/create-user" component={CreateUser} />

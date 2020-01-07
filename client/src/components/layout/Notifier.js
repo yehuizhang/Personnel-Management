@@ -14,7 +14,6 @@ const Notifier = ({ notifications, unsetNotifier }) => {
   useEffect(() => {
     notifications.forEach(({ key, variant, message }) => {
       if (!displayed.includes(key)) {
-        console.log('called', key);
         enqueueSnackbar(message, {
           key,
           variant,
