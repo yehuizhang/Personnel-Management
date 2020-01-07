@@ -2,8 +2,8 @@ const randomNames = require('./randomNames');
 
 const randomPhoneNumber = numOfNumbers => {
   const numbers = [];
-  const min = 2000000000;
-  const max = 9999999999;
+  const min = 4080000000;
+  const max = 4099999999;
   while (numbers.length < numOfNumbers) {
     const n = min + Math.floor((max - min) * Math.random());
     if (!numbers.includes(n)) {

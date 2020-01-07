@@ -51,10 +51,21 @@ const getUsersWithHigherRank = async (level, res) => {
     sort: { rank: 'asc' },
   };
   try {
-    const users = await User.find({ rank: { $gt: level } }, null, options);
+    if (!Number(level)) {
+      throw { message: 'Invalid parameter' };
+    }
+    const users = await User.find(
+      { rank: { $gt: Number(level) } },
+      null,
+      options
+    );
     return res.json(users);
   } catch (error) {
-    return errorHandling(res, 500, 'Unable to retrieve users from db');
+    return errorHandling(
+      res,
+      500,
+      `Unable to retrieve users from db.${error.message}`
+    );
   }
 };
 

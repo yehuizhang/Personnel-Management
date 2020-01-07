@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   rank: {
-    type: String,
+    type: Number,
     required: true,
   },
   startDate: {
