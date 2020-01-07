@@ -4,6 +4,7 @@ import { useSnackbar } from 'notistack';
 import loadPotentialSuperiors from '../util/loadPotentialSuperiors';
 import formValidator from '../util/formValidator';
 import notifierOption from '../util/notifierOption';
+import { addUser } from '../redux/actions/user';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -69,16 +70,18 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-  // serverError: {
-  //   color: 'red',
-  // },
+  avatar: {
+    width: '100%',
+    maxWidth: theme.spacing(35),
+  },
 }));
 
 const CreateUser = () => {
   const classes = useStyles();
 
   const [formData, setFormData] = useState({
-    avatar: rankLevels[0][1],
+    avatar: '',
+    avatarFile: null,
     name: '',
     rank: 0,
     sex: '',
@@ -125,7 +128,15 @@ const CreateUser = () => {
           );
           return;
         }
-        console.log(e.target.files);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setFormData({
+            ...formData,
+            avatar: reader.result,
+            avatarFile: file,
+          });
+        };
+        reader.readAsDataURL(file);
         break;
       default:
         setFormData({
@@ -137,13 +148,12 @@ const CreateUser = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(formData);
     if (
       formValidator(formData, message =>
         enqueueSnackbar(message, notifierOption(closeSnackbar))
       )
     ) {
-      //proceed
+      addUser(formData);
     }
   };
 
@@ -163,7 +173,11 @@ const CreateUser = () => {
                 </Typography>
               </Grid>
               <Grid item xs={12} align="center">
-                <img src={formData.avatar} alt="avatar" />
+                <img
+                  src={formData.avatar || rankLevels[formData.rank][1]}
+                  alt="avatar"
+                  className={classes.avatar}
+                />
               </Grid>
               <Grid item xs={12} align="center">
                 <input
