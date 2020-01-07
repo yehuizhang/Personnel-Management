@@ -137,8 +137,14 @@ const CreateUser = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    let hasError = false;
     console.log(formData);
+    if (
+      formValidator(formData, message =>
+        enqueueSnackbar(message, notifierOption(closeSnackbar))
+      )
+    ) {
+      //proceed
+    }
   };
 
   return (
@@ -258,6 +264,7 @@ const CreateUser = () => {
                     value={formData.superior}
                     onChange={handleFormChange}
                   >
+                    <MenuItem value={''}>None</MenuItem>
                     {fullPotentialSuperiors.map(
                       sup =>
                         sup.rank > formData.rank && (
@@ -304,7 +311,7 @@ const CreateUser = () => {
             </Grid>
             <Button
               type="submit"
-              // disabled={!noEmptyField()}
+              disabled={!formData.name || !formData.sex}
               // fullWidth
               variant="contained"
               color="primary"
