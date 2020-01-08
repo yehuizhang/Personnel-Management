@@ -9,9 +9,9 @@ const moment = require('moment');
  */
 
 module.exports = function(
+  numOfDates = 50,
   start = '1980-01-01',
   end = '2020-01-01',
-  numOfDates = 50,
   format = 'YYYY-MM-DD'
 ) {
   const range = moment(end).diff(moment(start), 'days');

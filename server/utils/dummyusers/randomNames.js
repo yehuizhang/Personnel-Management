@@ -8,7 +8,7 @@ const randomPick = list => {
 };
 
 module.exports = function(numOfNames = 10) {
-  const dobs = randomDates('1970-01-01', '1999-12-25', numOfNames);
+  const dobs = randomDates(numOfNames, '1970-01-01', '1999-12-25');
   return dobs.map(dob => {
     const user = {};
     const firstAndSex = randomPick(firstNames);
