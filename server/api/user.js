@@ -2,7 +2,7 @@ const express = require('express');
 const {
   getUserList,
   getUserById,
-  getUsersWithHigherRank,
+  getOfficers,
   addUser,
   updateUser,
   deleteUser,
@@ -10,12 +10,19 @@ const {
 
 const router = express.Router();
 
-// @route GET api/user
+// @route GET api/user/all
 // @desc All users from db
 // @access Public
-router.get('/', (req, res) => {
+router.get('/all', (req, res) => {
   const { sort, direction, page, keyword } = req.query;
   return getUserList(sort, direction, page, keyword, res);
+});
+
+// @route GET api/user/officers
+// @desc Get users who has rank higher than 0.
+// @access Public
+router.get('/officers', (req, res) => {
+  return getOfficers(res);
 });
 
 // @route GET api/user/:id
@@ -24,14 +31,6 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   const { id } = req.params;
   return getUserById(id, res);
-});
-
-// @route GET api/user/rank/:level
-// @desc Get all user’s id, name and rank who has higher rank than the level
-// @access Public
-router.get('/rank/:level', (req, res) => {
-  const { level } = req.params;
-  return getUsersWithHigherRank(level, res);
 });
 
 // @route POST api/user

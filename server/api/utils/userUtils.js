@@ -13,20 +13,21 @@ const getUserList = async (sort, direction, page, keyword, res) => {
     limit: 5,
     populate: { path: 'superior', select: ['id', 'name'] },
   };
-  const regex = keyword && { $regex: new RegExp(keyword, 'i') };
-  const query = regex && {
-    $or: [
-      { name: regex },
-      { sex: regex },
-      { rank: regex },
-      { phone: regex },
-      { email: regex },
-      // { startDate: regex },
-      // { superior: regex },
-    ],
-  };
+  // const regex = keyword && { $regex: new RegExp(keyword, 'i') };
+  // const query = regex && {
+  //   $or: [
+  //     { name: regex },
+  //     { sex: regex },
+  //     { rank: regex },
+  //     { phone: regex },
+  //     { email: regex },
+  //     // { startDate: regex },
+  //     // { superior: regex },
+  //   ],
+  // };
   try {
-    const result = await User.paginate(query, options);
+    const result = await User.paginate({}, options);
+    // const result = await User.paginate(query, options);
     return res.json(result);
   } catch (error) {
     console.error(error.message);
@@ -46,17 +47,14 @@ const getUserById = async (id, res) => {
   }
 };
 
-const getUsersWithHigherRank = async (level, res) => {
+const getOfficers = async res => {
   const options = {
     sort: { rank: 'asc' },
   };
   try {
-    if (isNaN(level)) {
-      throw { message: 'Invalid parameter' };
-    }
     const users = await User.find(
-      { rank: { $gt: Number(level) } },
-      null,
+      { rank: { $gt: 0 } },
+      'id name rank',
       options
     );
     return res.json(users);
@@ -171,7 +169,7 @@ const deleteUser = async (id, res) => {
 module.exports = {
   getUserList,
   getUserById,
-  getUsersWithHigherRank,
+  getOfficers,
   addUser,
   updateUser,
   deleteUser,
