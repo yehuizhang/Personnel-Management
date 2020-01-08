@@ -6,7 +6,8 @@ import { SnackbarProvider } from 'notistack';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import store from './redux/store';
-import { Home, CreateUser, EditUser, Spinner } from './components';
+import { Home, CreateUser, EditUser } from './components/containers';
+import { Spinner } from './components/layout';
 
 const theme = createMuiTheme({
   palette: {

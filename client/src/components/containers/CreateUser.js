@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import loadPotentialSuperiors from '../util/loadPotentialSuperiors';
-import formValidator from '../util/formValidator';
-import notifierOption from '../util/notifierOption';
-import { addUser } from '../redux/actions/user';
+import loadPotentialSuperiors from '../../util/loadPotentialSuperiors';
+import formValidator from '../../util/formValidator';
+import notifierOption from '../../util/notifierOption';
+import { addUser } from '../../redux/actions/user';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
