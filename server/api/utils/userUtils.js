@@ -13,20 +13,15 @@ const getUserList = async (sort, direction, page, keyword, res) => {
     limit: 5,
     populate: { path: 'superior', select: ['id', 'name'] },
   };
-  // const regex = keyword && { $regex: new RegExp(keyword, 'i') };
-  // const query = regex && {
-  //   $or: [
-  //     { name: regex },
-  //     { sex: regex },
-  //     { rank: regex },
-  //     { phone: regex },
-  //     { email: regex },
-  //     // { startDate: regex },
-  //     // { superior: regex },
-  //   ],
-  // };
+  const query =
+    (keyword && {
+      $text: {
+        $search: keyword,
+      },
+    }) ||
+    {};
   try {
-    const result = await User.paginate({}, options);
+    const result = await User.paginate(query, options);
     // const result = await User.paginate(query, options);
     return res.json(result);
   } catch (error) {
