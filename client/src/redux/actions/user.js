@@ -3,7 +3,8 @@ import axios from 'axios';
 export const addUser = async (
   { name, sex, rank, avatar, avatarFile, startDate, phone, email, superior },
   setAlert,
-  unsetLoading
+  unsetLoading,
+  history
 ) => {
   const user = { name, sex, rank };
 
@@ -37,7 +38,8 @@ export const addUser = async (
     };
     await axios.post('/api/user', body, config);
     unsetLoading();
-    setAlert('User successfully added!');
+    setAlert('User successfully added!', 'success');
+    history.push('/');
   } catch (error) {
     unsetLoading();
     setAlert('Adding user failed.');

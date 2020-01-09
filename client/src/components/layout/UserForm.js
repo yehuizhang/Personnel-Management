@@ -53,6 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 const UserForm = ({
   userData,
+  history,
   officers,
   setAlert,
   setLoading,
@@ -109,7 +110,7 @@ const UserForm = ({
     e.preventDefault();
     if (formValidator(formData, setAlert)) {
       setLoading();
-      addUser(formData, setAlert, unsetLoading);
+      addUser(formData, setAlert, unsetLoading, history);
     }
   };
 
