@@ -29,7 +29,7 @@ export const addUser = ({
     user.email = email;
   }
   if (superior) {
-    user.superior = superior.id;
+    user.superior = superior._id;
   }
 
   console.log(user);

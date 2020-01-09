@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useSnackbar } from 'notistack';
 import { removeAlert } from '../../redux/actions/notifier';
