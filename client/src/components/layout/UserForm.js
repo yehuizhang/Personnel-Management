@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { setAlert } from '../../redux/actions/notifier';
+import { setLoading, unsetLoading } from '../../redux/actions/spinner';
 import { addUser } from '../../redux/actions/user';
 
 import { rankMap, rankLevels } from '../../util/staticData';
@@ -50,7 +51,13 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const UserForm = ({ userData, officers, setAlert }) => {
+const UserForm = ({
+  userData,
+  officers,
+  setAlert,
+  setLoading,
+  unsetLoading,
+}) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     avatar: userData.avatar || null,
@@ -101,7 +108,8 @@ const UserForm = ({ userData, officers, setAlert }) => {
   const handleSubmit = e => {
     e.preventDefault();
     if (formValidator(formData, setAlert)) {
-      addUser(formData);
+      setLoading();
+      addUser(formData, setAlert, unsetLoading);
     }
   };
 
@@ -293,4 +301,6 @@ const mapStateToProps = state => ({
   officers: state.officers,
 });
 
-export default connect(mapStateToProps, { setAlert })(UserForm);
+export default connect(mapStateToProps, { setAlert, setLoading, unsetLoading })(
+  UserForm
+);

@@ -1,14 +1,10 @@
-export const addUser = ({
-  name,
-  sex,
-  rank,
-  avatar,
-  avatarFile,
-  startDate,
-  phone,
-  email,
-  superior,
-}) => {
+import axios from 'axios';
+
+export const addUser = async (
+  { name, sex, rank, avatar, avatarFile, startDate, phone, email, superior },
+  setAlert,
+  unsetLoading
+) => {
   const user = { name, sex, rank };
 
   if (avatar) {
@@ -32,5 +28,19 @@ export const addUser = ({
     user.superior = superior._id;
   }
 
-  console.log(user);
+  try {
+    const body = JSON.stringify(user);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    await axios.post('/api/user', body, config);
+    unsetLoading();
+    setAlert('User successfully added!');
+  } catch (error) {
+    unsetLoading();
+    setAlert('Adding user failed.');
+    console.error(error.response.data);
+  }
 };
