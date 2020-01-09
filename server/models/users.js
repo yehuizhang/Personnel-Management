@@ -5,8 +5,7 @@ const types = mongoose.Schema.Types;
 
 const userSchema = new mongoose.Schema({
   avatar: {
-    data: Buffer,
-    contentType: String,
+    type: String,
   },
   name: {
     type: String,
