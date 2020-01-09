@@ -11,7 +11,7 @@ const connectDB = async () => {
     await mongoose.connect('mongodb://localhost:27017/army-registry');
     loadDummyUser();
   } catch (error) {
-    console.error('Unable to connect to database.\n', error.message);
+    console.error('Unable to connect to database.\n', error);
     process.exit(1);
   }
 };

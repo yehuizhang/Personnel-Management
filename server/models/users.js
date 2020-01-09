@@ -5,8 +5,8 @@ const types = mongoose.Schema.Types;
 
 const userSchema = new mongoose.Schema({
   avatar: {
-    type: String,
-    lowercase: true,
+    data: Buffer,
+    contentType: String,
   },
   name: {
     type: String,
@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   rank: {
-    type: Number,
+    type: String,
     required: true,
   },
   startDate: {
@@ -41,6 +41,8 @@ const userSchema = new mongoose.Schema({
   ],
 });
 
+// Index all files of type of string
+userSchema.index({ '$**': 'text' });
 userSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('User', userSchema);
