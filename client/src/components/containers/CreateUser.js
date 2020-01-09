@@ -6,7 +6,7 @@ import UserForm from '../layout/UserForm';
 const CreateUser = () => {
   const history = useHistory();
 
-  return <UserForm userData={{ minRank: 0 }} history={history} />;
+  return <UserForm history={history} />;
 };
 
 export default CreateUser;

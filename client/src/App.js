@@ -31,8 +31,8 @@ function App() {
           <Router>
             <Switch>
               <Route exact path="/create-user" component={CreateUser} />
-              {/* <Route exact path="/edit-user/:id" component={EditUser} />
-            <Route path="/" component={Home} /> */}
+              <Route exact path="/edit-user/:id" component={EditUser} />
+              <Route path="/" component={Home} />
             </Switch>
           </Router>
           <Spinner />
