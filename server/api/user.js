@@ -1,5 +1,6 @@
 const express = require('express');
 const { upload } = require('../middleware/multer');
+const base64Img = require('base64-img');
 
 const {
   getUserList,
@@ -8,7 +9,6 @@ const {
   addUser,
   updateUser,
   deleteUser,
-  getAvatar,
 } = require('./utils/userUtils');
 
 const router = express.Router();
@@ -28,12 +28,22 @@ router.get('/officers', (req, res) => {
   return getOfficers(res);
 });
 
-// @route GET api/user/avatar/:id
-// @desc Get user's avatar
-// @access Public
-router.get('/avatar/:id', (req, res) => {
-  const { id } = req.params;
-  return getAvatar(id, res);
+router.post('/image/upload', upload.single('image'), (req, res) => {
+  if (req.file) {
+    return res.json({
+      imageUrl: `images/uploads/${req.file.filename}`,
+    });
+  }
+  return res.status('409').json({ message: 'No Files to Upload.' });
+});
+
+router.post('/image/retrieve', (req, res) => {
+  let { path } = req.body;
+  const dname = __dirname;
+
+  path = `${dname.substring(0, dname.length - 3)}\\public\\${path}`;
+  const imageData = base64Img.base64Sync(path);
+  return res.send(imageData);
 });
 
 // @route GET api/user/:id
@@ -58,15 +68,6 @@ router.post('/', (req, res) => {
 router.put('/', (req, res) => {
   const user = req.body;
   return updateUser(user, res);
-});
-
-router.post('/upload', upload.single('image'), (req, res) => {
-  if (req.file) {
-    return res.json({
-      imageUrl: `images/uploads/${req.file.filename}`,
-    });
-  }
-  return res.status('409').json({ message: 'No Files to Upload.' });
 });
 
 // @route DELETE api/user/:id
