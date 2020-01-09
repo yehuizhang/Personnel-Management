@@ -12,14 +12,14 @@ export const rankMap = new Map([
 ]);
 
 export const rankLevels = [
-  ['Private'],
-  ['Specialist'],
-  ['Corporal'],
-  ['Sergeant'],
-  ['Warrant Officer'],
-  ['Lieutenant'],
-  ['Captain'],
-  ['Major'],
-  ['Colonel'],
-  ['General'],
+  'Private',
+  'Specialist',
+  'Corporal',
+  'Sergeant',
+  'Warrant Officer',
+  'Lieutenant',
+  'Captain',
+  'Major',
+  'Colonel',
+  'General',
 ];
