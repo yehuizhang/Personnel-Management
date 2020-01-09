@@ -37,7 +37,7 @@ router.get('/:id', (req, res) => {
 // @desc Create a new user
 // @access Public
 router.post('/', (req, res) => {
-  const { user } = req.body;
+  const user = req.body;
   return addUser(user, res);
 });
 

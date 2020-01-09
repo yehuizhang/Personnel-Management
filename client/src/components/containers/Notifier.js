@@ -27,6 +27,7 @@ const Notifier = ({ alerts, removeAlert }) => {
       displayed.push(key);
       enqueueSnackbar(message, {
         key,
+        variant,
         action: key => (
           <IconButton
             size="small"
