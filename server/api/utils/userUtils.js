@@ -1,6 +1,6 @@
 const User = require('../../models/users');
 
-const ranks = {
+const rankToNumber = {
   Private: 0,
   Specialist: 1,
   Corporal: 2,
@@ -45,12 +45,29 @@ const getUserList = async (sort, direction, page, keyword, res) => {
 
 const getUserById = async (id, res) => {
   try {
-    const user = await User.findById(id).populate('superior', ['id', 'name']);
+    let user = await User.findById(id)
+      .populate('superior', ['id', 'name'])
+      .populate('dsList', 'rank')
+      .exec();
     if (!user) {
       return errorHandling(res, 400, 'The user does not exist');
     }
+    user = user.toObject();
+    if (user.dsList.length === 0) {
+      user.minRank = 0;
+    } else {
+      user.minRank =
+        user.dsList.reduce(
+          (accumulator, currVal) =>
+            rankToNumber[currVal.rank] > accumulator
+              ? rankToNumber[currVal.rank]
+              : accumulator,
+          0
+        ) + 1;
+    }
     return res.json(user);
   } catch (error) {
+    console.log(error);
     return errorHandling(res, 500, 'Unable to retrieve user from db');
   }
 };
@@ -58,7 +75,7 @@ const getUserById = async (id, res) => {
 const getOfficers = async res => {
   try {
     const users = await User.find({ rank: { $ne: 'Private' } }, 'id name rank');
-    users.sort((a, b) => ranks[a.rank] - ranks[b.rank]);
+    users.sort((a, b) => rankToNumber[a.rank] - rankToNumber[b.rank]);
     return res.json(users);
   } catch (error) {
     return errorHandling(
