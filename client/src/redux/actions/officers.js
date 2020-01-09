@@ -14,7 +14,7 @@ export const loadOfficers = setAlert => async dispatch => {
       payload: officers,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     setAlert('Load officer failed');
   }
 };

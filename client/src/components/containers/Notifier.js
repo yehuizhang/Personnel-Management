@@ -44,7 +44,6 @@ const Notifier = ({ alerts, removeAlert }) => {
         },
       });
     });
-    console.log(displayed);
   }, [alerts]);
 
   return null;

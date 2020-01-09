@@ -67,7 +67,7 @@ const getUserById = async (id, res) => {
     }
     return res.json(user);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return errorHandling(res, 500, 'Unable to retrieve user from db');
   }
 };
@@ -150,7 +150,6 @@ const updateUser = async (updatedUserInfo, res) => {
       await addUserToSuperior(user, updatedUserInfo.superior.toString());
     }
     Object.assign(user, { ...updatedUserInfo });
-    console.log(user);
     await user.save();
     return res.json(user);
   } catch (error) {
