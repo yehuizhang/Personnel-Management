@@ -1,7 +1,8 @@
 import React from 'react';
+import UserTable from '../layout/UserTable';
 
 const Home = () => {
-  return <div>Here is the home.</div>;
+  return <UserTable />;
 };
 
 export default Home;
