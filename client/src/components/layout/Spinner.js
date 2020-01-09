@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Backdrop from '@material-ui/core/Backdrop';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
   backdrop: {
@@ -12,12 +12,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const ColorCircularProgress = withStyles({
+  root: {
+    color: '#fb8c00',
+  },
+})(CircularProgress);
+
 const Spinner = ({ isLoading }) => {
   const classes = useStyles();
 
   return (
     <Backdrop className={classes.backdrop} open={isLoading}>
-      <CircularProgress />
+      <ColorCircularProgress size={90} />
     </Backdrop>
   );
 };
