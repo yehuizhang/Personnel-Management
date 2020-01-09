@@ -1,5 +1,18 @@
 const User = require('../../models/users');
 
+const ranks = {
+  Private: 0,
+  Specialist: 1,
+  Corporal: 2,
+  Sergeant: 3,
+  'Warrant Officer': 4,
+  Lieutenant: 5,
+  Captain: 6,
+  Major: 7,
+  Colonel: 8,
+  General: 9,
+};
+
 const errorHandling = (res, code, message) => {
   return res.status(code).json({
     message,
@@ -43,15 +56,9 @@ const getUserById = async (id, res) => {
 };
 
 const getOfficers = async res => {
-  const options = {
-    sort: { rank: 'asc' },
-  };
   try {
-    const users = await User.find(
-      { rank: { $gt: 0 } },
-      'id name rank',
-      options
-    );
+    const users = await User.find({ rank: { $ne: 'Private' } }, 'id name rank');
+    users.sort((a, b) => ranks[a.rank] - ranks[b.rank]);
     return res.json(users);
   } catch (error) {
     return errorHandling(
