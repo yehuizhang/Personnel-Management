@@ -1,4 +1,6 @@
 const express = require('express');
+const { upload } = require('../middleware/multer');
+
 const {
   getUserList,
   getUserById,
@@ -6,6 +8,7 @@ const {
   addUser,
   updateUser,
   deleteUser,
+  getAvatar,
 } = require('./utils/userUtils');
 
 const router = express.Router();
@@ -25,6 +28,14 @@ router.get('/officers', (req, res) => {
   return getOfficers(res);
 });
 
+// @route GET api/user/avatar/:id
+// @desc Get user's avatar
+// @access Public
+router.get('/avatar/:id', (req, res) => {
+  const { id } = req.params;
+  return getAvatar(id, res);
+});
+
 // @route GET api/user/:id
 // @desc Get the user info by id
 // @access Public
@@ -41,12 +52,21 @@ router.post('/', (req, res) => {
   return addUser(user, res);
 });
 
-// @route PUT api/user/
+// @route PUT api/user
 // @desc Update user
 // @access Public
 router.put('/', (req, res) => {
-  const { user } = req.body;
+  const user = req.body;
   return updateUser(user, res);
+});
+
+router.post('/upload', upload.single('image'), (req, res) => {
+  if (req.file) {
+    return res.json({
+      imageUrl: `images/uploads/${req.file.filename}`,
+    });
+  }
+  return res.status('409').json({ message: 'No Files to Upload.' });
 });
 
 // @route DELETE api/user/:id

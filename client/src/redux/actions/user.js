@@ -7,13 +7,18 @@ const filterUserData = ({
   sex,
   rank,
   avatar,
-  avatarFile,
   startDate,
   phone,
   email,
   superior,
 }) => {
   const user = { name, sex, rank };
+  if (id) {
+    user.id = id;
+  }
+  if (avatar) {
+    user.avatar = avatar;
+  }
   if (startDate) {
     user.startDate = startDate;
   }
@@ -30,9 +35,6 @@ const filterUserData = ({
   }
   if (superior) {
     user.superior = superior._id;
-  }
-  if (id) {
-    user.id = id;
   }
   return user;
 };
@@ -60,26 +62,28 @@ export const addUser = async (userData, setAlert, unsetLoading, history) => {
 
 export const updateUser = async (userData, setAlert, unsetLoading, history) => {
   try {
-    let fd = new FormData();
-    if (userData.avatar) {
+    if (userData.avatarFile) {
       const imagefd = new FormData();
-      imagefd.append('image', userData.avatar, userData.avatar.name);
+      imagefd.append('image', userData.avatarFile, userData.avatarFile.name);
       const imageRes = await axios.post('/api/user/upload', imagefd);
-      console.log('imgres', imageRes);
+      userData.avatar = imageRes.data.imageUrl;
     }
-    fd.append(userData, JSON.stringify(filterUserData(userData)));
+
     const config = {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     };
+    userData = filterUserData(userData);
+    const body = JSON.stringify(userData);
+    await axios.put('/api/user/', body, config);
     unsetLoading();
     setAlert('User successfully updated!', 'success');
-    history.push('/');
+    // history.push('/');
   } catch (error) {
     unsetLoading();
     setAlert('Updating user failed.');
-    console.error(error.response.data);
+    console.error(error);
   }
 };
 

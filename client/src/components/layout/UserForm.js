@@ -123,7 +123,6 @@ const UserForm = ({
 
   return (
     <Container component="main" maxWidth="md">
-      {console.log(formData.avatar)}
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
