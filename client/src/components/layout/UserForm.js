@@ -80,7 +80,6 @@ const UserForm = ({
         officer => officer._id === updatedData.superior._id
       )[0];
     }
-
     setFormData(updatedData);
   }, [userData]);
 

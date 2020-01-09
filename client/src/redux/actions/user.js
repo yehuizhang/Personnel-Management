@@ -1,5 +1,12 @@
 import axios from 'axios';
 import { LOAD_USER_SUCCESS, RESET_CURRENT_USER } from '../types';
+import base64Img from 'base64-img';
+
+const axioConfig = {
+  headers: {
+    'Content-Type': 'application/json',
+  },
+};
 
 const filterUserData = ({
   id,
@@ -44,12 +51,7 @@ export const addUser = async (userData, setAlert, unsetLoading, history) => {
 
   try {
     const body = JSON.stringify(userData);
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-    await axios.post('/api/user', body, config);
+    await axios.post('/api/user', body, axioConfig);
     unsetLoading();
     setAlert('User successfully added!', 'success');
     history.push('/');
@@ -65,18 +67,13 @@ export const updateUser = async (userData, setAlert, unsetLoading, history) => {
     if (userData.avatarFile) {
       const imagefd = new FormData();
       imagefd.append('image', userData.avatarFile, userData.avatarFile.name);
-      const imageRes = await axios.post('/api/user/upload', imagefd);
+      const imageRes = await axios.post('/api/user/image/upload', imagefd);
       userData.avatar = imageRes.data.imageUrl;
     }
 
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
     userData = filterUserData(userData);
     const body = JSON.stringify(userData);
-    await axios.put('/api/user/', body, config);
+    await axios.put('/api/user/', body, axioConfig);
     unsetLoading();
     setAlert('User successfully updated!', 'success');
     // history.push('/');
@@ -95,9 +92,15 @@ export const loadUserById = (
 ) => async dispatch => {
   try {
     const res = await axios.get(`/api/user/${id}`);
-    // const avatarRes = await axios.get(`/api/user/avatar/${id}`);
-    // console.log(avatarRes.data);
     const userData = res.data;
+    if (userData.avatar) {
+      const avatarFile = await axios.post(
+        '/api/user/image/retrieve',
+        { path: userData.avatar },
+        axioConfig
+      );
+      userData.avatar = avatarFile.data;
+    }
     userData.id = userData._id;
     delete userData._id;
     if (userData.startDate) {
