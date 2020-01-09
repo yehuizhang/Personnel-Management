@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { setAlert } from '../../redux/actions/notifier';
 import { setLoading, unsetLoading } from '../../redux/actions/spinner';
-import { addUser } from '../../redux/actions/user';
+import { addUser, updateUser } from '../../redux/actions/user';
 
 import { rankMap, rankLevels } from '../../util/staticData';
 import formValidator from '../../util/formValidator';
@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserForm = ({
+  isNewUser,
   userData,
   history,
   officers,
@@ -62,7 +63,7 @@ const UserForm = ({
   const classes = useStyles();
   const [formData, setFormData] = useState({
     avatar: userData.avatar || null,
-    avatarDisplay: null,
+    avatarFile: null,
     name: userData.name || '',
     rank: userData.rank || 'Private',
     sex: userData.sex || '',
@@ -73,21 +74,22 @@ const UserForm = ({
   });
 
   useEffect(() => {
-    if (formData.avatar) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({
-          ...formData,
-          avatarDisplay: reader.result,
-        });
-      };
-      reader.readAsDataURL(formData.avatar);
+    const updatedData = { ...formData, ...userData };
+    if (updatedData.superior) {
+      updatedData.superior = officers.filter(
+        officer => officer._id === updatedData.superior._id
+      )[0];
     }
-  }, [formData.avatar]);
+
+    setFormData(updatedData);
+  }, [userData]);
 
   const handleFormChange = e => {
     switch (e.target.name) {
       case 'avatar':
+        if (!e.target) {
+          return;
+        }
         const file = e.target.files[0];
         if (file.size > 1 << 21) {
           setAlert('Sorry, your image exceeds the allowed maximum size(2 MB)');
@@ -95,7 +97,8 @@ const UserForm = ({
         }
         setFormData({
           ...formData,
-          avatar: file,
+          avatar: URL.createObjectURL(file),
+          avatarFile: file,
         });
         break;
       default:
@@ -110,16 +113,21 @@ const UserForm = ({
     e.preventDefault();
     if (formValidator(formData, setAlert)) {
       setLoading();
-      addUser(formData, setAlert, unsetLoading, history);
+      if (isNewUser) {
+        addUser(formData, setAlert, unsetLoading, history);
+      } else {
+        updateUser(formData, setAlert, unsetLoading, history);
+      }
     }
   };
 
   return (
     <Container component="main" maxWidth="md">
+      {console.log(formData.avatar)}
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
-          Create New Soldier
+          {isNewUser ? 'Create New Soldier' : 'Edit User'}
         </Typography>
         <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <Grid container spacing={2} justify="center">
@@ -131,7 +139,7 @@ const UserForm = ({
               </Grid>
               <Grid item xs={12} align="center">
                 <img
-                  src={formData.avatarDisplay || rankMap.get(formData.rank)[1]}
+                  src={formData.avatar || rankMap.get(formData.rank)[1]}
                   alt="avatar"
                   className={classes.avatar}
                 />
@@ -162,6 +170,7 @@ const UserForm = ({
                   fullWidth
                   label="Full name"
                   name="name"
+                  value={formData.name}
                   autoFocus
                   onChange={handleFormChange}
                 />
@@ -267,6 +276,7 @@ const UserForm = ({
                   fullWidth
                   label="Office phone"
                   name="phone"
+                  value={formData.phone}
                   onChange={handleFormChange}
                 />
               </Grid>
@@ -277,6 +287,7 @@ const UserForm = ({
                   fullWidth
                   label="Email"
                   name="email"
+                  value={formData.email}
                   onChange={handleFormChange}
                 />
               </Grid>
@@ -289,7 +300,7 @@ const UserForm = ({
               color="primary"
               className={classes.submit}
             >
-              Add user
+              {isNewUser ? 'Add user' : 'Update user'}
             </Button>
           </Grid>
         </form>
@@ -299,6 +310,8 @@ const UserForm = ({
 };
 
 const mapStateToProps = state => ({
+  isNewUser: state.user.isNew,
+  userData: state.user.userData,
   officers: state.officers,
 });
 
