@@ -6,7 +6,7 @@ import { SnackbarProvider } from 'notistack';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import store from './redux/store';
-import { Home, CreateUser, EditUser } from './components/containers';
+import { Home, CreateUser, EditUser, Notifier } from './components/containers';
 import { Spinner } from './components/layout';
 
 const theme = createMuiTheme({
@@ -30,6 +30,7 @@ function App() {
             </Switch>
           </Router>
           <Spinner />
+          <Notifier />
         </SnackbarProvider>
       </ThemeProvider>
     </Provider>
