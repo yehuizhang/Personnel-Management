@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -19,9 +19,9 @@ const theme = createMuiTheme({
   },
 });
 
-function App({ loadOfficers, setAlert }) {
+function App() {
   useEffect(() => {
-    loadOfficers(setAlert);
+    store.dispatch(loadOfficers(setAlert));
   }, []);
 
   return (
@@ -43,4 +43,4 @@ function App({ loadOfficers, setAlert }) {
   );
 }
 
-export default connect(null, { loadOfficers, setAlert })(App);
+export default App;
