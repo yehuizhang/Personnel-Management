@@ -35,7 +35,6 @@ const getUserList = async (sort, direction, page, keyword, res) => {
     {};
   try {
     const result = await User.paginate(query, options);
-    // const result = await User.paginate(query, options);
     return res.json(result);
   } catch (error) {
     console.error(error.message);
