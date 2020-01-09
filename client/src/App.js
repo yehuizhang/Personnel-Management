@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
@@ -8,6 +8,8 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import store from './redux/store';
 import { Home, CreateUser, EditUser, Notifier } from './components/containers';
 import { Spinner } from './components/layout';
+import { loadOfficers } from './redux/actions/officers';
+import { setAlert } from './redux/actions/notifier';
 
 const theme = createMuiTheme({
   palette: {
@@ -17,7 +19,11 @@ const theme = createMuiTheme({
   },
 });
 
-function App() {
+function App({ loadOfficers, setAlert }) {
+  useEffect(() => {
+    loadOfficers(setAlert);
+  }, []);
+
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
@@ -37,4 +43,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect(null, { loadOfficers, setAlert })(App);
