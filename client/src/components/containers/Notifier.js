@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useSnackbar } from 'notistack';
+import { removeAlert } from '../../redux/actions/notifier';
 
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 
-const Notifier = ({ alerts }) => {
+const Notifier = ({ alerts, removeAlert }) => {
   const displayed = [];
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const removeKey = key => {
+  const cleanup = key => {
+    removeAlert(key);
     const index = displayed.indexOf(key);
     if (index > -1) {
       displayed.splice(index, 1);
@@ -37,7 +39,7 @@ const Notifier = ({ alerts }) => {
           </IconButton>
         ),
         onExited: (event, key) => {
-          removeKey(key);
+          cleanup(key);
         },
       });
     });
@@ -50,4 +52,4 @@ const Notifier = ({ alerts }) => {
 const mapStateToProps = state => ({
   alerts: state.notifier,
 });
-export default connect(mapStateToProps)(Notifier);
+export default connect(mapStateToProps, { removeAlert })(Notifier);
