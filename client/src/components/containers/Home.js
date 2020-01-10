@@ -1,8 +1,4 @@
-import React from 'react';
-import UserTable from '../layout/UserTable';
-
-const Home = () => {
-  return <UserTable />;
-};
+import React, { useEffect } from 'react';
+const Home = () => {};
 
 export default Home;

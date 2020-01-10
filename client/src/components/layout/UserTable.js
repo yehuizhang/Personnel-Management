@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import InfiniteScroll from 'react-infinite-scroller';
 import { connect } from 'react-redux';
 
-import { loadMoreUser } from '../../redux/actions/list';
+import { loadMoreUser } from '../../redux/actions/userListActions';
 
 const UserTable = ({ userList, searchParams, totalPages, loadMoreUser }) => {
   const [users, setUsers] = useState([]);
@@ -21,22 +20,7 @@ const UserTable = ({ userList, searchParams, totalPages, loadMoreUser }) => {
     setMaxPage(totalPages);
   }, [totalPages]);
 
-  return (
-    <InfiniteScroll
-      pageStart={0}
-      loadMore={loadMore}
-      hasMore={currpage < maxPage}
-      loader={
-        <div className="loader" key={0}>
-          Loading ...
-        </div>
-      }
-    >
-      {users.forEach(user => (
-        <span>{user.id}</span>
-      ))}
-    </InfiniteScroll>
-  );
+  return <div>Here is the table</div>;
 };
 
 const mapStateToProps = state => ({
