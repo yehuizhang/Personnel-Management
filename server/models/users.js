@@ -41,7 +41,13 @@ const userSchema = new mongoose.Schema({
 });
 
 // Index all files of type of string
-userSchema.index({ '$**': 'text' });
+userSchema.index({
+  name: 'text',
+  sex: 'text',
+  rank: 'text',
+  phone: 'text',
+  email: 'text',
+});
 userSchema.plugin(mongoosePaginate);
 
 module.exports = mongoose.model('User', userSchema);
