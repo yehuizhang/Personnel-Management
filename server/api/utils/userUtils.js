@@ -19,29 +19,6 @@ const errorHandling = (res, code, message) => {
   });
 };
 
-const getUserList = async (sort, direction, page, keyword, res) => {
-  const options = {
-    sort: { [sort]: direction },
-    page,
-    limit: 5,
-    populate: { path: 'superior', select: ['id', 'name'] },
-  };
-  const query =
-    (keyword && {
-      $text: {
-        $search: keyword,
-      },
-    }) ||
-    {};
-  try {
-    const result = await User.paginate(query, options);
-    return res.json(result);
-  } catch (error) {
-    console.error(error.message);
-    errorHandling(res, 500, 'Unable to retrieve user list from db');
-  }
-};
-
 const getUserById = async (id, res) => {
   try {
     let user = await User.findById(id)
@@ -184,7 +161,6 @@ const deleteUser = async (id, res) => {
 };
 
 module.exports = {
-  getUserList,
   getUserById,
   getOfficers,
   addUser,
