@@ -10,7 +10,6 @@ import formValidator from '../../util/formValidator';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -122,7 +121,6 @@ const UserForm = ({
 
   return (
     <Container component="main" maxWidth="md">
-      <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           {isNewUser ? 'Create New Soldier' : 'Edit User'}

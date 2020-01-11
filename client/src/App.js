@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import store from './redux/store';
 import { Home, CreateUser, EditUser, Notifier } from './components/containers';
@@ -27,6 +28,7 @@ function App() {
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <SnackbarProvider maxSnack={5}>
           <Router>
             <Switch>
