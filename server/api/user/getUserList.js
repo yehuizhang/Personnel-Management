@@ -3,7 +3,10 @@ const User = require('../../models/users');
 // sort by length of dsList
 // https://stackoverflow.com/questions/9040161/mongo-order-by-length-of-array
 
-const getUserList = async (sortBy, sortDirection, search, page, res) => {
+const getUserList = async (
+  { sortBy, sortDirection, search, page, dsList },
+  res
+) => {
   const options = {
     page: page || 1,
     limit: 5,
@@ -21,6 +24,11 @@ const getUserList = async (sortBy, sortDirection, search, page, res) => {
     query['$text'] = {
       $search: search,
     };
+  }
+  if (dsList) {
+    query['$or'] = dsList.map(ds => ({
+      _id: ds,
+    }));
   }
 
   try {
