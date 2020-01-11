@@ -3,8 +3,10 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
 
-import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { CssBaseline, createMuiTheme, ThemeProvider } from '@material-ui/core';
+import { lightGreen } from '@material-ui/core/colors';
+
+import ArmyTable from './containers/ArmyTable';
 
 import store from './redux/store';
 import { Home, CreateUser, EditUser, Notifier } from './components/containers';
@@ -17,13 +19,19 @@ const theme = createMuiTheme({
     background: {
       default: '#fff',
     },
+    secondary: {
+      light: lightGreen[300],
+      main: lightGreen[500],
+      dark: lightGreen[70],
+      contrastText: '#000',
+    },
   },
 });
 
 function App() {
-  useEffect(() => {
-    store.dispatch(loadOfficers(setAlert));
-  }, []);
+  // useEffect(() => {
+  //   store.dispatch(loadOfficers(setAlert));
+  // }, []);
 
   return (
     <Provider store={store}>
@@ -34,7 +42,7 @@ function App() {
             <Switch>
               <Route exact path="/create-user" component={CreateUser} />
               <Route exact path="/edit-user/:id" component={EditUser} />
-              <Route path="/" component={Home} />
+              <Route path="/" component={ArmyTable} />
             </Switch>
           </Router>
           <Spinner />
