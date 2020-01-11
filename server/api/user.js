@@ -1,9 +1,8 @@
 const express = require('express');
-const { upload } = require('../middleware/multer');
-const base64Img = require('base64-img');
+
+const getUserList = require('./user/getUserList');
 
 const {
-  getUserList,
   getUserById,
   getOfficers,
   addUser,
@@ -17,8 +16,8 @@ const router = express.Router();
 // @desc All users from db
 // @access Public
 router.get('/all', (req, res) => {
-  const { sort, direction, page, keyword } = req.query;
-  return getUserList(sort, direction, page, keyword, res);
+  const { sortBy, sortDirection, search, page } = req.body;
+  return getUserList(sortBy, sortDirection, search, page, res);
 });
 
 // @route GET api/user/officers
@@ -26,24 +25,6 @@ router.get('/all', (req, res) => {
 // @access Public
 router.get('/officers', (req, res) => {
   return getOfficers(res);
-});
-
-router.post('/image/upload', upload.single('image'), (req, res) => {
-  if (req.file) {
-    return res.json({
-      imageUrl: `images/uploads/${req.file.filename}`,
-    });
-  }
-  return res.status('409').json({ message: 'No Files to Upload.' });
-});
-
-router.post('/image/retrieve', (req, res) => {
-  let { path } = req.body;
-  const dname = __dirname;
-
-  path = `${dname.substring(0, dname.length - 3)}\\public\\${path}`;
-  const imageData = base64Img.base64Sync(path);
-  return res.send(imageData);
 });
 
 // @route GET api/user/:id
