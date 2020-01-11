@@ -4,7 +4,7 @@ import feedback from './feedback';
 import notifier from './notifier';
 import officers from './officers';
 import user from './user';
-import userList from './userListReducer';
+import userList from './userList';
 
 export default combineReducers({
   feedback,
