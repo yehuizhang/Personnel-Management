@@ -1,9 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+
+import { initialLoad, moreLoad, updateParams } from '../redux/actions/userList';
 
 import { SearchAppBar, TableHead, TableBody } from '../components/armyTable';
 import { Container, TableContainer, Table } from '@material-ui/core';
 
-const ArmyTable = ({ tableData }) => {
+const ArmyTable = ({
+  params,
+  users,
+  page,
+  totalPages,
+  initialLoad,
+  moreLoad,
+  updateParams,
+}) => {
+  useEffect(() => {
+    initialLoad(params);
+  }, [params]);
+
   const handleSearchText = text => {
     console.log('search-text', text.trim());
   };
@@ -35,11 +50,21 @@ const ArmyTable = ({ tableData }) => {
             sortBy={'phone'}
             sortDirection={'asc'}
           />
-          <TableBody tableData={tableData} />
+          <TableBody tableData={users} />
         </Table>
       </TableContainer>
     </Container>
   );
 };
 
-export default ArmyTable;
+const mapStateToProps = state => {
+  const { params, data } = state.userList;
+  const { users, page, totalPages } = data;
+  return { params, users, page, totalPages };
+};
+
+export default connect(mapStateToProps, {
+  initialLoad,
+  moreLoad,
+  updateParams,
+})(ArmyTable);

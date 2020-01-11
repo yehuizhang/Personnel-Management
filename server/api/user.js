@@ -12,10 +12,10 @@ const {
 
 const router = express.Router();
 
-// @route GET api/user/all
+// @route POST api/user/all
 // @desc All users from db
 // @access Public
-router.get('/all', (req, res) => {
+router.post('/all', (req, res) => {
   return getUserList(req.body, res);
 });
 
