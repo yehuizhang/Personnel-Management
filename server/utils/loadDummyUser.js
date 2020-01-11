@@ -1,5 +1,5 @@
 const User = require('../models/users');
-let preDefinedUsers = require('../utils/predefinedUsers');
+const preDefinedUsers = require('../utils/predefinedUsers');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 const loadDummyUser = async () => {
@@ -11,7 +11,7 @@ const loadDummyUser = async () => {
   try {
     const docCount = await User.estimatedDocumentCount();
     if (docCount === 0) {
-      preDefinedUsers = preDefinedUsers.map(raw => {
+      const users = preDefinedUsers.map(raw => {
         const user = { ...raw, _id: ids[raw._id] };
         if (raw.superior !== undefined) {
           user.superior = ids[raw.superior];
@@ -21,7 +21,7 @@ const loadDummyUser = async () => {
         }
         return user;
       });
-      await User.insertMany(preDefinedUsers);
+      await User.insertMany(users);
     }
   } catch (error) {
     console.error('Load dummy user failed.\n', error);
