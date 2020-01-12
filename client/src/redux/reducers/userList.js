@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import {
   USERLIST_UPDATE_PARAMS,
   USERLIST_LOAD,
-  USERLIST_RESET,
+  USERLIST_RELOAD,
 } from '../types';
 
 // full params = {sortBy, sortDirection, search, users} and page stored in data.
@@ -30,6 +30,11 @@ export default function(state = initialState, action) {
           totalPages: payload.totalPages,
           totalDocs: payload.totalDocs,
         },
+      };
+    case USERLIST_RELOAD:
+      return {
+        ...state,
+        data: initialState.data,
       };
     case USERLIST_UPDATE_PARAMS:
       return {

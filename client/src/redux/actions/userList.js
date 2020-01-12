@@ -4,7 +4,7 @@ import { setAlert } from './notifier';
 
 import {
   USERLIST_LOAD,
-  USERLIST_RESET,
+  USERLIST_RELOAD,
   USERLIST_UPDATE_PARAMS,
 } from '../types';
 
@@ -39,5 +39,11 @@ export const updateParams = params => dispatch => {
   dispatch({
     type: USERLIST_UPDATE_PARAMS,
     payload: params,
+  });
+};
+
+export const reloadUserList = () => dispatch => {
+  dispatch({
+    type: USERLIST_RELOAD,
   });
 };
