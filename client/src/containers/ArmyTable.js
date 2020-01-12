@@ -86,11 +86,6 @@ const ArmyTable = ({
           pageStart={0}
           loadMore={() => loadUserList(params, page)}
           hasMore={page <= totalPages}
-          loader={
-            <div className="loader" key={0}>
-              Loading ...
-            </div>
-          }
         >
           <Table>
             <TableHead
