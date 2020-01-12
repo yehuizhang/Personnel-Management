@@ -8,7 +8,12 @@ import {
 // full params = {sortBy, sortDirection, search, users} and page stored in data.
 const initialState = {
   params: {},
-  data: { users: [], page: 1, totalPages: 1, totalDocs: 0 },
+  data: {
+    users: [],
+    page: 1,
+    totalPages: 1,
+    totalDocs: 0,
+  },
 };
 
 export default function(state = initialState, action) {
@@ -16,6 +21,7 @@ export default function(state = initialState, action) {
   switch (type) {
     case USERLIST_LOAD:
       const { users, page } = state.data;
+      if (page === payload.page) return state;
       return {
         ...state,
         data: {
