@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useSnackbar } from 'notistack';
-import { removeAlert } from '../../redux/actions/notifier';
+import { removeAlert } from '../redux/actions/notifier';
 
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';

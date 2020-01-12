@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 
-import UserForm from '../layout/UserForm';
+import UserForm from '../components/layout/UserForm';
 
 const CreateUser = () => {
   const history = useHistory();

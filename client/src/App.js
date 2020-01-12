@@ -7,9 +7,11 @@ import { CssBaseline, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import { lightGreen } from '@material-ui/core/colors';
 
 import ArmyTable from './containers/ArmyTable';
+import CreateUser from './containers/CreateUser';
+import EditUser from './containers/EditUser';
+import Notifier from './containers/Notifier';
 
 import store from './redux/store';
-import { Home, CreateUser, EditUser, Notifier } from './components/containers';
 import { Spinner } from './components/layout';
 import { loadOfficers } from './redux/actions/officers';
 import { setAlert } from './redux/actions/notifier';

@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
-import UserForm from '../layout/UserForm';
-import { setLoading, unsetLoading } from '../../redux/actions/spinner';
-import { setAlert } from '../../redux/actions/notifier';
-import { loadUserById } from '../../redux/actions/user';
+import UserForm from '../components/layout/UserForm';
+import { setLoading, unsetLoading } from '../redux/actions/spinner';
+import { setAlert } from '../redux/actions/notifier';
+import { loadUserById } from '../redux/actions/user';
 
 const EditUser = ({ loadUserById, setAlert, setLoading, unsetLoading }) => {
   const { id } = useParams();
