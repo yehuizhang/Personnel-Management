@@ -3,53 +3,35 @@ import axios from 'axios';
 import { setAlert } from './notifier';
 
 import {
-  USERLIST_INITIAL_LOAD,
-  USERLIST_MORE_LOAD,
+  USERLIST_LOAD,
+  USERLIST_RESET,
   USERLIST_UPDATE_PARAMS,
 } from '../types';
 
 import { axiosJSONConfig } from './config';
 
-export const initialLoad = params => async dispatch => {
-  const body = { ...params, page: 1 };
-  try {
-    const res = await axios.post('/api/user/all', body, axiosJSONConfig);
-    const { users, page, totalPages } = res.data;
-    dispatch({
-      type: USERLIST_INITIAL_LOAD,
-      payload: {
-        users,
-        page,
-        totalPages,
-      },
-    });
-  } catch (error) {
-    console.log(error);
-    if (error.response) {
-      console.log(error.response.data);
-    }
-    setAlert('Load user list failed!')(dispatch);
-  }
-};
-
-export const moreLoad = (params, page) => async dispatch => {
+export const loadUserList = (params, page) => async dispatch => {
+  console.log('>>>loadUser ' + page);
   const body = { ...params, page };
   try {
     const res = await axios.post('/api/user/all', body, axiosJSONConfig);
-    const { users, page } = res.data;
+    const { users, page, totalPages, totalDocs } = res.data;
     dispatch({
-      type: USERLIST_MORE_LOAD,
+      type: USERLIST_LOAD,
       payload: {
         users,
-        page,
+        page: page + 1,
+        totalPages,
+        totalDocs,
       },
     });
   } catch (error) {
-    console.log(error);
     if (error.response) {
-      console.log(error.response.data);
+      console.error(error.response.data);
+    } else {
+      console.error(error);
     }
-    setAlert('Load user list (more) failed!')(dispatch);
+    setAlert('Load user list failed!')(dispatch);
   }
 };
 

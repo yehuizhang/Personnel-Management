@@ -1,26 +1,41 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroller';
 
-import { initialLoad, moreLoad, updateParams } from '../redux/actions/userList';
+import { loadUserList, updateParams } from '../redux/actions/userList';
 import { SearchAppBar, TableHead, TableBody } from '../components/armyTable';
 
-import { Container, TableContainer, Table } from '@material-ui/core';
+import {
+  makeStyles,
+  Container,
+  TableContainer,
+  Table,
+  Typography,
+  Chip,
+  Grid,
+} from '@material-ui/core';
+
+import Block from '@material-ui/icons/Block';
+
+const useStyles = makeStyles(theme => ({
+  end: {
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(3),
+  },
+}));
 
 const ArmyTable = ({
   params,
   users,
   page,
   totalPages,
-  initialLoad,
-  moreLoad,
+  totalDocs,
+  loadUserList,
   updateParams,
 }) => {
+  const classes = useStyles();
   const history = useHistory();
-
-  useEffect(() => {
-    initialLoad(params);
-  }, [params]);
 
   const handleSearchText = text => {
     if (text.length == 0 && params.search) {
@@ -67,31 +82,69 @@ const ArmyTable = ({
         handleCreateNewSoldier={handleCreateNewSoldier}
       />
       <TableContainer>
-        <Table>
-          <TableHead
-            handleSort={handleSort}
-            sortBy={params.sortBy}
-            sortDirection={params.sortDirection}
-          />
-          <TableBody
-            tableData={users}
-            handleDSClick={handleDSClick}
-            handleSuperiorClick={handleSuperiorClick}
-          />
-        </Table>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={() => loadUserList(params, page)}
+          hasMore={page <= totalPages}
+          loader={
+            <div className="loader" key={0}>
+              Loading ...
+            </div>
+          }
+        >
+          <Table>
+            <TableHead
+              handleSort={handleSort}
+              sortBy={params.sortBy}
+              sortDirection={params.sortDirection}
+            />
+
+            <TableBody
+              tableData={users}
+              handleDSClick={handleDSClick}
+              handleSuperiorClick={handleSuperiorClick}
+            />
+          </Table>
+        </InfiniteScroll>
       </TableContainer>
+      <Grid
+        container
+        direction="column"
+        justify="center"
+        alignItems="center"
+        spacing={2}
+        className={classes.end}
+      >
+        {page > totalPages ? (
+          <>
+            <Grid item xs={12}>
+              <Typography color="primary" variant="h6">
+                {totalDocs} users are loaded for you...
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Chip icon={<Block />} label="End" />
+            </Grid>
+          </>
+        ) : (
+          <Grid item xs={12}>
+            <Typography color="primary" variant="h6">
+              Loading the data for you...
+            </Typography>
+          </Grid>
+        )}
+      </Grid>
     </Container>
   );
 };
 
 const mapStateToProps = state => {
   const { params, data } = state.userList;
-  const { users, page, totalPages } = data;
-  return { params, users, page, totalPages };
+  const { users, page, totalPages, totalDocs } = data;
+  return { params, users, page, totalPages, totalDocs };
 };
 
 export default connect(mapStateToProps, {
-  initialLoad,
-  moreLoad,
+  loadUserList,
   updateParams,
 })(ArmyTable);
