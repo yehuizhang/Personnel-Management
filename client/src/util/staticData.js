@@ -8,7 +8,7 @@ export const rankMap = new Map([
   ['Captain', [6, 'https://i.ibb.co/PGZXVXm/rank-6.jpg']],
   ['Major', [7, 'https://i.ibb.co/xqgzDHG/rank-7.jpg']],
   ['Colonel', [8, 'https://i.ibb.co/LdbrgQW/rank-8.jpg']],
-  ['General', [9, 'https://i.ibb.co/xqnKFnm/rank-9.jpg']],
+  ['General', [9, 'https://i.ibb.co/7VwjBgh/rank-9.jpg']],
 ]);
 
 export const rankLevels = [

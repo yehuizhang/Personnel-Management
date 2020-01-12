@@ -53,6 +53,9 @@ const resultProcess = result => {
         name: user.superior.name,
       };
     }
+    if (user.startDate) {
+      user.startDate = user.startDate.toISOString().substring(0, 10);
+    }
     return user;
   });
   return {

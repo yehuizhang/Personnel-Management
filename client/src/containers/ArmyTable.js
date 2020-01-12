@@ -31,6 +31,14 @@ const ArmyTable = ({
     console.log('handleCreateNewSoldier is clicked');
   };
 
+  const handleDSClick = dsList => {
+    console.log(dsList);
+  };
+
+  const handleSuperiorClick = id => {
+    console.log(id);
+  };
+
   const handleSort = fieldName => {
     console.log('sort', fieldName);
     //fire up action to cause
@@ -50,7 +58,11 @@ const ArmyTable = ({
             sortBy={'phone'}
             sortDirection={'asc'}
           />
-          <TableBody tableData={users} />
+          <TableBody
+            tableData={users}
+            handleDSClick={handleDSClick}
+            handleSuperiorClick={handleSuperiorClick}
+          />
         </Table>
       </TableContainer>
     </Container>
