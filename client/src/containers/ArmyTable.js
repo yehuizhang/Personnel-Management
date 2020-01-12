@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { initialLoad, moreLoad, updateParams } from '../redux/actions/userList';
-
 import { SearchAppBar, TableHead, TableBody } from '../components/armyTable';
+
 import { Container, TableContainer, Table } from '@material-ui/core';
 
 const ArmyTable = ({
@@ -15,33 +16,47 @@ const ArmyTable = ({
   moreLoad,
   updateParams,
 }) => {
+  const history = useHistory();
+
   useEffect(() => {
     initialLoad(params);
   }, [params]);
 
   const handleSearchText = text => {
-    console.log('search-text', text.trim());
+    if (text.length == 0 && params.search) {
+      const newParams = { ...params };
+      delete newParams.search;
+      updateParams(newParams);
+      return;
+    }
+    updateParams({ ...params, search: text });
   };
 
   const handleReset = () => {
-    console.log('handleReset is clicked');
+    updateParams({});
   };
 
   const handleCreateNewSoldier = () => {
-    console.log('handleCreateNewSoldier is clicked');
+    history.push('/create-user');
   };
 
   const handleDSClick = dsList => {
-    console.log(dsList);
+    updateParams({ ...params, users: dsList });
   };
 
   const handleSuperiorClick = id => {
-    console.log(id);
+    updateParams({ ...params, users: [id] });
   };
 
-  const handleSort = fieldName => {
-    console.log('sort', fieldName);
-    //fire up action to cause
+  const handleSort = (fieldName, direction) => {
+    if (!direction) {
+      const newParams = { ...params };
+      delete newParams.sortBy;
+      delete newParams.sortDirection;
+      updateParams(newParams);
+      return;
+    }
+    updateParams({ ...params, sortBy: fieldName, sortDirection: direction });
   };
 
   return (
@@ -55,8 +70,8 @@ const ArmyTable = ({
         <Table>
           <TableHead
             handleSort={handleSort}
-            sortBy={'phone'}
-            sortDirection={'asc'}
+            sortBy={params.sortBy}
+            sortDirection={params.sortDirection}
           />
           <TableBody
             tableData={users}

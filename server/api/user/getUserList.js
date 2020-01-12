@@ -4,7 +4,7 @@ const User = require('../../models/users');
 // https://stackoverflow.com/questions/9040161/mongo-order-by-length-of-array
 
 const getUserList = async (
-  { sortBy, sortDirection, search, page, dsList },
+  { sortBy, sortDirection, search, page, users },
   res
 ) => {
   const options = {
@@ -25,9 +25,9 @@ const getUserList = async (
       $search: search,
     };
   }
-  if (dsList) {
-    query['$or'] = dsList.map(ds => ({
-      _id: ds,
+  if (users) {
+    query['$or'] = users.map(user => ({
+      _id: user,
     }));
   }
 
@@ -41,7 +41,7 @@ const getUserList = async (
 };
 
 const resultProcess = result => {
-  const { docs, page, totalPages } = result;
+  const { docs, page, totalPages, totalDocs } = result;
   const users = docs.map(doc => {
     doc = doc.toObject();
     const user = { ...doc, id: doc._id };
@@ -62,6 +62,7 @@ const resultProcess = result => {
     users,
     page,
     totalPages,
+    totalDocs,
   };
 };
 
