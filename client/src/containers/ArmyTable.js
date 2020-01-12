@@ -56,10 +56,12 @@ const ArmyTable = ({
   };
 
   const handleDSClick = dsList => {
+    delete params.search;
     updateParams({ ...params, users: dsList });
   };
 
   const handleSuperiorClick = id => {
+    delete params.search;
     updateParams({ ...params, users: [id] });
   };
 

@@ -21,7 +21,7 @@ export default function(state = initialState, action) {
   switch (type) {
     case USERLIST_LOAD:
       const { users, page } = state.data;
-      if (page === payload.page) return state;
+      if (page <= payload.page) return state;
       return {
         ...state,
         data: {
