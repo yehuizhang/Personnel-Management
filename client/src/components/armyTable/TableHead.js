@@ -29,6 +29,18 @@ const headCells = [
 const ArmyTableHead = ({ handleSort, sortBy, sortDirection }) => {
   const classes = useStyles();
 
+  const handleFieldClick = fieldName => {
+    if (fieldName !== sortBy) {
+      handleSort(fieldName, 'asc');
+      return;
+    }
+    if (sortDirection === 'asc') {
+      handleSort(fieldName, 'desc');
+      return;
+    }
+    handleSort(fieldName);
+  };
+
   return (
     <TableHead>
       <TableRow>
@@ -41,7 +53,7 @@ const ArmyTableHead = ({ handleSort, sortBy, sortDirection }) => {
               <TableSortLabel
                 active={sortBy === headCell.id} // true | false
                 direction={sortDirection} //asc | desc
-                onClick={() => handleSort(headCell.id)}
+                onClick={() => handleFieldClick(headCell.id)}
                 className={classes.sortLabel}
               >
                 {headCell.label}

@@ -5,6 +5,7 @@ import {
   USERLIST_UPDATE_PARAMS,
 } from '../types';
 
+// full params = {sortBy, sortDirection, search, users} and page stored in data.
 const params = function(state = {}, action) {
   const { type, payload } = action;
   switch (type) {
