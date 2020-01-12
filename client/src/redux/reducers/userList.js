@@ -1,41 +1,36 @@
 import { combineReducers } from 'redux';
 import {
-  USERLIST_INITIAL_LOAD,
-  USERLIST_MORE_LOAD,
   USERLIST_UPDATE_PARAMS,
+  USERLIST_LOAD,
+  USERLIST_RESET,
 } from '../types';
 
 // full params = {sortBy, sortDirection, search, users} and page stored in data.
-const params = function(state = {}, action) {
-  const { type, payload } = action;
-  switch (type) {
-    case USERLIST_UPDATE_PARAMS:
-      return payload;
-    default:
-      return state;
-  }
+const initialState = {
+  params: {},
+  data: { users: [], page: 1, totalPages: 1, totalDocs: 0 },
 };
 
-const initialData = {
-  users: [],
-  page: 1,
-  totalPages: 1,
-};
-
-const data = function(state = initialData, action) {
+export default function(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case USERLIST_INITIAL_LOAD:
-      return payload;
-    case USERLIST_MORE_LOAD:
+    case USERLIST_LOAD:
+      const { users, page } = state.data;
       return {
         ...state,
-        users: [...state.users, ...payload.users],
-        page: Math.max(state.page, payload.page),
+        data: {
+          users: [...users, ...payload.users],
+          page: Math.max(page, payload.page),
+          totalPages: payload.totalPages,
+          totalDocs: payload.totalDocs,
+        },
+      };
+    case USERLIST_UPDATE_PARAMS:
+      return {
+        params: payload,
+        data: initialState.data,
       };
     default:
       return state;
   }
-};
-
-export default combineReducers({ params, data });
+}
