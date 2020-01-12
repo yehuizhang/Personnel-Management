@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import { loadUserList, updateParams } from '../redux/actions/userList';
+import { deleteUser } from '../redux/actions/userActions/deleteUser';
 import { SearchAppBar, TableHead, TableBody } from '../components/armyTable';
 
 import {
@@ -15,7 +16,6 @@ import {
   Chip,
   Grid,
 } from '@material-ui/core';
-
 import Block from '@material-ui/icons/Block';
 
 const useStyles = makeStyles(theme => ({
@@ -33,6 +33,7 @@ const ArmyTable = ({
   totalDocs,
   loadUserList,
   updateParams,
+  deleteUser,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -76,8 +77,34 @@ const ArmyTable = ({
     updateParams({ ...params, sortBy: fieldName, sortDirection: direction });
   };
 
+  const handleEditClick = id => {
+    history.push(`/edit-user/${id}`);
+  };
+
+  const handleDeleteClick = id => {
+    deleteUser(id);
+  };
+
   return (
     <Container maxWidth="lg">
+      <Grid
+        container
+        direction="row"
+        justify="center"
+        alignItems="center"
+        spacing={5}
+      >
+        <Grid item>
+          <img
+            src="https://aoav.org.uk/wp-content/uploads/2016/03/DOD-logo.jpg"
+            alt="DOD Seal"
+            height="100px"
+            width="100px"
+          />
+        </Grid>
+        <Typography variant="h4">US Army Personnel Registry</Typography>
+        <Grid item></Grid>
+      </Grid>
       <SearchAppBar
         handleSearchText={handleSearchText}
         handleReset={handleReset}
@@ -100,6 +127,8 @@ const ArmyTable = ({
               tableData={users}
               handleDSClick={handleDSClick}
               handleSuperiorClick={handleSuperiorClick}
+              handleEditClick={handleEditClick}
+              handleDeleteClick={handleDeleteClick}
             />
           </Table>
         </InfiniteScroll>
@@ -144,4 +173,5 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   loadUserList,
   updateParams,
+  deleteUser,
 })(ArmyTable);

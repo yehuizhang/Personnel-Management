@@ -11,7 +11,13 @@ import {
   Link,
 } from '@material-ui/core';
 
-const ArmyTableBody = ({ tableData, handleDSClick, handleSuperiorClick }) => {
+const ArmyTableBody = ({
+  tableData,
+  handleDSClick,
+  handleSuperiorClick,
+  handleEditClick,
+  handleDeleteClick,
+}) => {
   return (
     <TableBody>
       {tableData.map(row => (
@@ -50,12 +56,20 @@ const ArmyTableBody = ({ tableData, handleDSClick, handleSuperiorClick }) => {
             )}
           </TableCell>
           <TableCell>
-            <Button color="primary" variant="contained">
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => handleEditClick(row.id)}
+            >
               Edit
             </Button>
           </TableCell>
           <TableCell>
-            <Button color="primary" variant="contained">
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => handleDeleteClick(row.id)}
+            >
               Delete
             </Button>
           </TableCell>
