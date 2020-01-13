@@ -14,7 +14,7 @@ const EditUser = ({ loadUserById, loadOfficers }) => {
   useEffect(() => {
     loadUserById(id, history);
     loadOfficers();
-  }, []);
+  }, [id, history, loadUserById, loadOfficers]);
 
   return <UserForm history={history} />;
 };

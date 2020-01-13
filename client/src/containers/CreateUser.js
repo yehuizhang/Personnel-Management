@@ -10,7 +10,7 @@ const CreateUser = ({ loadOfficers }) => {
   const history = useHistory();
   useEffect(() => {
     loadOfficers();
-  }, []);
+  }, [loadOfficers]);
 
   return <UserForm history={history} />;
 };
