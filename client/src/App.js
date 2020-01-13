@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { SnackbarProvider } from 'notistack';
@@ -13,7 +13,6 @@ import Notifier from './containers/Notifier';
 
 import store from './redux/store';
 import { Spinner } from './components/layout';
-import { setAlert } from './redux/actions/notifier';
 
 const theme = createMuiTheme({
   palette: {

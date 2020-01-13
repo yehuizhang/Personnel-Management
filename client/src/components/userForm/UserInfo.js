@@ -162,11 +162,14 @@ const UserInfo = ({ handleFormChange, user, officers }) => {
           </Typography>
           <List>
             {user.dsList.map(ds => (
-              <ListItem>
+              <ListItem key={ds._id}>
                 <ListItemIcon>
                   <FaceIcon />
                 </ListItemIcon>
-                <ListItemText primary={ds.name} secondary={ds.rank} />
+                <ListItemText
+                  primary={ds.name}
+                  secondary={`${ds.rank} (${rankToNumber[ds.rank]})`}
+                />
               </ListItem>
             ))}
           </List>
