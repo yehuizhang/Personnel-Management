@@ -23,10 +23,7 @@ const ArmyTableBody = ({
       {tableData.map(row => (
         <TableRow key={row.id} hover>
           <TableCell>
-            <Avatar
-              src={row.avatar || rankMap.get(row.rank)[1]}
-              alt={row.name}
-            />
+            <Avatar src={row.avatar || rankMap.get(row.rank)} alt={row.name} />
           </TableCell>
           <TableCell>{row.name}</TableCell>
           <TableCell>{row.sex}</TableCell>

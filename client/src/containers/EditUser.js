@@ -2,26 +2,18 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
 
-import UserForm from '../components/layout/UserForm';
-import { setLoading, unsetLoading } from '../redux/actions/spinner';
-import { setAlert } from '../redux/actions/notifier';
-import { loadUserById } from '../redux/actions/user';
+import UserForm from '../components/userForm/UserForm';
+import { loadUserById } from '../redux/actions/userActions/loadUserByID';
 
-const EditUser = ({ loadUserById, setAlert, setLoading, unsetLoading }) => {
+const EditUser = ({ loadUserById }) => {
   const { id } = useParams();
   const history = useHistory();
 
   useEffect(() => {
-    setLoading();
-    loadUserById(id, unsetLoading, setAlert, history);
-  }, []);
+    loadUserById(id, history);
+  }, [id]);
 
   return <UserForm history={history} />;
 };
 
-export default connect(null, {
-  loadUserById,
-  setAlert,
-  setLoading,
-  unsetLoading,
-})(EditUser);
+export default connect(null, { loadUserById })(EditUser);

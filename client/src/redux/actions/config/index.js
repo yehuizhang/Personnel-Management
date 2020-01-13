@@ -1,4 +1,4 @@
-const axiosJSONConfig = {
+export const axiosJSONConfig = {
   headers: {
     'Content-Type': 'application/json',
   },
