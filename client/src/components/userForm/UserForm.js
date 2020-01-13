@@ -66,6 +66,10 @@ const UserForm = ({
     setFormData({ ...formData, ...userData });
   }, [userData, officers]);
 
+  const handleCancelClick = () => {
+    history.push('/');
+  };
+
   const handleFormChange = e => {
     switch (e.target.name) {
       case 'avatarFile':
@@ -116,16 +120,36 @@ const UserForm = ({
               handleFormChange={handleFormChange}
               officers={officers}
             />
-            <Button
-              type="submit"
-              disabled={!formData.name || !formData.sex}
-              // fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
+            <Grid
+              item
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              spacing={4}
             >
-              {isNewUser ? 'Add user' : 'Update user'}
-            </Button>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  onClick={handleCancelClick}
+                  className={classes.submit}
+                >
+                  Return
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  type="submit"
+                  disabled={!formData.name || !formData.sex}
+                  // fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  {isNewUser ? 'Add user' : 'Update user'}
+                </Button>
+              </Grid>
+            </Grid>
           </Grid>
         </form>
       </div>
