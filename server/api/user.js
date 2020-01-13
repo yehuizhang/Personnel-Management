@@ -35,7 +35,7 @@ router.get('/:id', (req, res) => {
 // @desc Create a new user
 // @access Public
 router.post('/', (req, res) => {
-  const { user } = req.body;
+  const user = req.body;
   return addUser(user, res);
 });
 
@@ -43,7 +43,7 @@ router.post('/', (req, res) => {
 // @desc Update user
 // @access Public
 router.put('/', (req, res) => {
-  const { user } = req.body;
+  const user = req.body;
   return editUser(user, res);
 });
 

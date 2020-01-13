@@ -7,11 +7,10 @@ import { filterUserData } from '../user';
 
 const addUser = (userData, history) => async dispatch => {
   setLoading()(dispatch);
-  userData = filterUserData(userData);
   try {
+    userData = await filterUserData(userData);
     const body = userData;
-    console.log(userData);
-    // await axios.post('/api/user', body, axiosJSONConfig);
+    await axios.post('/api/user', body, axiosJSONConfig);
     unsetLoading()(dispatch);
     setAlert('User successfully added!', 'success')(dispatch);
     history.push('/');

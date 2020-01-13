@@ -7,10 +7,10 @@ import { filterUserData } from '../user';
 
 const updateUser = (userData, history) => async dispatch => {
   setLoading()(dispatch);
-  userData = filterUserData(userData);
+
   try {
-    // const body = JSON.stringify(userData);
-    // await axios.put('/api/user/', body, axioConfig);
+    userData = await filterUserData(userData);
+    await axios.put('/api/user/', userData, axiosJSONConfig);
     unsetLoading()(dispatch);
     setAlert('User successfully updated!', 'success')(dispatch);
     // history.push('/');
