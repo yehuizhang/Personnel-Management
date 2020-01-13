@@ -1,10 +1,10 @@
 const User = require('../../models/users');
-const { rankToNumber, numberToRank } = require('./util');
+const { rankToNumber } = require('./util');
 
 const getUserById = async (id, res) => {
   try {
     const user = await User.findById(id)
-      .populate('superior', ['id', 'name'])
+      .populate('superior', ['id', 'name', 'rank'])
       .populate('dsList', ['name', 'rank'])
       .exec();
     if (!user) {
@@ -30,7 +30,6 @@ const resultProcess = async result => {
     user.superior.id = user.superior._id;
     delete user.superior._id;
   }
-  user.potentialSuperiors = await getPotentialSuperiors(user.dsList);
   if (user.dsList.length === 0) {
     user.minRank = 0;
   } else {
@@ -44,29 +43,6 @@ const resultProcess = async result => {
     user.startDate = user.startDate.toISOString().substring(0, 10);
   }
   return user;
-};
-
-const getPotentialSuperiors = async dsList => {
-  let sups = [];
-  if (dsList.length === 0) {
-    sups = await User.find({ rank: { $ne: 'Private' } }, 'name rank');
-  } else {
-    const supMinLevel = rankToNumber[dsList[0].rank] + 1;
-    if (supMinLevel >= numberToRank.length) {
-      return sups;
-    }
-    const supRanks = numberToRank
-      .filter((val, i) => i >= supMinLevel)
-      .map(val => ({ rank: val }));
-    sups = await User.find({ $or: supRanks }, 'name rank');
-  }
-
-  sups.sort((a, b) => rankToNumber[a.rank] - rankToNumber[b.rank]);
-  sups = sups.map(sup => {
-    return { id: sup._id, rank: sup.rank, name: sup.name };
-  });
-
-  return sups;
 };
 
 module.exports = getUserById;
