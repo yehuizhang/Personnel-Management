@@ -1,9 +1,11 @@
 import axios from 'axios';
+import { RESET_CURRENT_USER } from '../../types';
 
 import { axiosJSONConfig } from '../config';
 import { setAlert } from '../notifier';
 import { unsetLoading, setLoading } from '../spinner';
 import { filterUserData } from '../user';
+import { reloadUserList } from '../userList';
 
 const updateUser = (userData, history) => async dispatch => {
   setLoading()(dispatch);
@@ -11,9 +13,13 @@ const updateUser = (userData, history) => async dispatch => {
   try {
     userData = await filterUserData(userData);
     await axios.put('/api/user/', userData, axiosJSONConfig);
-    unsetLoading()(dispatch);
     setAlert('User successfully updated!', 'success')(dispatch);
-    // history.push('/');
+    reloadUserList()(dispatch);
+    dispatch({
+      type: RESET_CURRENT_USER,
+    });
+    unsetLoading()(dispatch);
+    history.push('/');
   } catch (error) {
     unsetLoading()(dispatch);
     setAlert('Updating user failed.')(dispatch);

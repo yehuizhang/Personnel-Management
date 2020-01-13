@@ -1,6 +1,3 @@
-import { RESET_CURRENT_USER } from '../types';
-import base64Img from 'base64-img';
-
 export const filterUserData = async formData => {
   const user = { ...formData };
 
@@ -34,12 +31,6 @@ export const filterUserData = async formData => {
   delete user.avatarFile;
   delete user.minRank;
   return user;
-};
-
-export const resetCurrentUser = () => dispatch => {
-  dispatch({
-    type: RESET_CURRENT_USER,
-  });
 };
 
 const convertImgToBinary = async file => {
