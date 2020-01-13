@@ -13,6 +13,19 @@ const rankToNumber = {
   General: 9,
 };
 
+const numberToRank = [
+  'Private',
+  'Specialist',
+  'Corporal',
+  'Sergeant',
+  'Warrant Officer',
+  'Lieutenant',
+  'Captain',
+  'Major',
+  'Colonel',
+  'General',
+];
+
 const addUserToSuperior = async (id, rank, superiorId) => {
   const superior = await User.findById(superiorId).populate('dsList', [
     'id',
@@ -36,4 +49,9 @@ const removeUserFromSuperior = async (userId, superiorId) => {
   await superior.save();
 };
 
-module.exports = { addUserToSuperior, removeUserFromSuperior, rankToNumber };
+module.exports = {
+  addUserToSuperior,
+  removeUserFromSuperior,
+  rankToNumber,
+  numberToRank,
+};

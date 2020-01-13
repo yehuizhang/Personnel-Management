@@ -27,7 +27,7 @@ const editUser = async (updatedUserInfo, res) => {
     return res.json(user);
   } catch (error) {
     console.error(error.message);
-    return res.status(500).send(error);
+    return res.status(500).send('Edit failed. Internal error.');
   }
 };
 

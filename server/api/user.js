@@ -1,14 +1,10 @@
 const express = require('express');
 
 const getUserList = require('./user/getUserList');
-
-const {
-  getUserById,
-  getOfficers,
-  addUser,
-  updateUser,
-  deleteUser,
-} = require('./utils/userUtils');
+const getUserById = require('./user/getUserById');
+const addUser = require('./user/addUser');
+const editUser = require('./user/editUser');
+const deleteUser = require('./user/deleteUser');
 
 const router = express.Router();
 
@@ -17,13 +13,6 @@ const router = express.Router();
 // @access Public
 router.post('/all', (req, res) => {
   return getUserList(req.body, res);
-});
-
-// @route GET api/user/officers
-// @desc Get users who has rank higher than 0.
-// @access Public
-router.get('/officers', (req, res) => {
-  return getOfficers(res);
 });
 
 // @route GET api/user/:id
@@ -38,7 +27,7 @@ router.get('/:id', (req, res) => {
 // @desc Create a new user
 // @access Public
 router.post('/', (req, res) => {
-  const user = req.body;
+  const { user } = req.body;
   return addUser(user, res);
 });
 
@@ -46,8 +35,8 @@ router.post('/', (req, res) => {
 // @desc Update user
 // @access Public
 router.put('/', (req, res) => {
-  const user = req.body;
-  return updateUser(user, res);
+  const { user } = req.body;
+  return editUser(user, res);
 });
 
 // @route DELETE api/user/:id
