@@ -1,4 +1,3 @@
-import { combineReducers } from 'redux';
 import {
   USERLIST_UPDATE_PARAMS,
   USERLIST_LOAD,
