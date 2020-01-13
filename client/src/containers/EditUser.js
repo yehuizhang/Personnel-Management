@@ -6,17 +6,23 @@ import UserForm from '../components/userForm/UserForm';
 
 import { loadUserById } from '../redux/actions/userActions/loadUserByID';
 import loadOfficers from '../redux/actions/userActions/loadOfficers';
+import { resetCurrentUser } from '../redux/actions/user';
 
-const EditUser = ({ loadUserById, loadOfficers }) => {
+const EditUser = ({ loadUserById, loadOfficers, resetCurrentUser }) => {
   const { id } = useParams();
   const history = useHistory();
 
   useEffect(() => {
     loadUserById(id, history);
     loadOfficers();
-  }, [id, history, loadUserById, loadOfficers]);
+    return () => {
+      resetCurrentUser();
+    };
+  }, []);
 
   return <UserForm history={history} />;
 };
 
-export default connect(null, { loadUserById, loadOfficers })(EditUser);
+export default connect(null, { loadUserById, loadOfficers, resetCurrentUser })(
+  EditUser
+);

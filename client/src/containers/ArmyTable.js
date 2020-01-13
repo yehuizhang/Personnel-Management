@@ -5,7 +5,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 import { loadUserList, updateParams } from '../redux/actions/userList';
 import deleteUser from '../redux/actions/userActions/deleteUser';
-import { resetCurrentUser } from '../redux/actions/user';
 import { SearchAppBar, TableHead, TableBody } from '../components/armyTable';
 
 import {
@@ -35,7 +34,6 @@ const ArmyTable = ({
   loadUserList,
   updateParams,
   deleteUser,
-  resetCurrentUser,
 }) => {
   const classes = useStyles();
   const history = useHistory();
@@ -55,7 +53,6 @@ const ArmyTable = ({
   };
 
   const handleCreateNewSoldier = () => {
-    resetCurrentUser();
     history.push('/create-user');
   };
 
@@ -81,7 +78,6 @@ const ArmyTable = ({
   };
 
   const handleEditClick = id => {
-    resetCurrentUser();
     history.push(`/edit-user/${id}`);
   };
 
@@ -178,5 +174,4 @@ export default connect(mapStateToProps, {
   loadUserList,
   updateParams,
   deleteUser,
-  resetCurrentUser,
 })(ArmyTable);
