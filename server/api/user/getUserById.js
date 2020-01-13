@@ -30,8 +30,12 @@ const resultProcess = async result => {
     user.superior.id = user.superior._id;
     delete user.superior._id;
   }
-
   user.potentialSuperiors = await getPotentialSuperiors(user.dsList);
+  if (user.dsList.length === 0) {
+    user.minRank = 0;
+  } else {
+    user.minRank = rankToNumber[user.dsList[0].rank] + 1;
+  }
 
   if (user.dsList.length === 0) {
     delete user.dsList;
