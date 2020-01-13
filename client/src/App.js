@@ -13,7 +13,6 @@ import Notifier from './containers/Notifier';
 
 import store from './redux/store';
 import { Spinner } from './components/layout';
-import { loadOfficers } from './redux/actions/officers';
 import { setAlert } from './redux/actions/notifier';
 
 const theme = createMuiTheme({
@@ -31,10 +30,6 @@ const theme = createMuiTheme({
 });
 
 function App() {
-  // useEffect(() => {
-  //   store.dispatch(loadOfficers(setAlert));
-  // }, []);
-
   return (
     <Provider store={store}>
       <ThemeProvider theme={theme}>

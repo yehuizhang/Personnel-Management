@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -39,7 +39,7 @@ const ArmyTable = ({
   const history = useHistory();
 
   const handleSearchText = text => {
-    if (text.length == 0 && params.search) {
+    if (text.length === 0 && params.search) {
       const newParams = { ...params };
       delete newParams.search;
       updateParams(newParams);

@@ -8,20 +8,22 @@ import { addUser, updateUser } from '../../redux/actions/user';
 import { rankMap, rankLevels } from '../../util/staticData';
 import formValidator from '../../util/formValidator';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import { FormLabel } from '@material-ui/core';
+import {
+  makeStyles,
+  Container,
+  Typography,
+  Grid,
+  TextField,
+  Button,
+  FormControl,
+  FormGroup,
+  FormControlLabel,
+  FormLabel,
+  Checkbox,
+  InputLabel,
+  Select,
+  MenuItem,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   paper: {
