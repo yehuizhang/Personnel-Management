@@ -5,6 +5,7 @@ const getUserById = require('./user/getUserById');
 const addUser = require('./user/addUser');
 const editUser = require('./user/editUser');
 const deleteUser = require('./user/deleteUser');
+const getOfficers = require('./user/getOfficers');
 
 const router = express.Router();
 
@@ -13,6 +14,13 @@ const router = express.Router();
 // @access Public
 router.post('/all', (req, res) => {
   return getUserList(req.body, res);
+});
+
+// @route GET api/user/officers
+// @desc Get users who has rank higher than 0.
+// @access Public
+router.get('/officers', (req, res) => {
+  return getOfficers(res);
 });
 
 // @route GET api/user/:id
