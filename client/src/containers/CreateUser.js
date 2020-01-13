@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import loadOfficers from '../redux/actions/userActions/loadOfficers';
 
 import UserForm from '../components/userForm/UserForm';
 
-const CreateUser = () => {
+const CreateUser = ({ loadOfficers }) => {
   const history = useHistory();
+  useEffect(() => {
+    loadOfficers();
+  }, []);
 
   return <UserForm history={history} />;
 };
 
-export default CreateUser;
+export default connect(null, { loadOfficers })(CreateUser);

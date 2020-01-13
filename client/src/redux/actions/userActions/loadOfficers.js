@@ -7,7 +7,7 @@ const loadOfficers = () => async dispatch => {
     const res = await axios.get('/api/user/officers');
     dispatch({
       type: LOAD_OFFICER,
-      payload: res.data,
+      payload: res.data.officers,
     });
   } catch (error) {
     console.error(error);

@@ -29,21 +29,27 @@ const useStyles = makeStyles(theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
   },
-  uploadImage: {
-    display: 'none',
-  },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
 }));
 
-const UserForm = ({ isNewUser, userData, history, officers, setAlert }) => {
+const UserForm = ({
+  history,
+  isNewUser,
+  userData,
+  officers,
+  setAlert,
+  addUser,
+  updateUser,
+}) => {
   const classes = useStyles();
   const [formData, setFormData] = useState({
     avatar: userData.avatar || null,
     avatarFile: null,
     name: userData.name || '',
     rank: userData.rank || 'Private',
+    minRank: userData.minRank || 0,
     sex: userData.sex || '',
     startDate: userData.startDate || '',
     phone: userData.phone || '',
@@ -52,13 +58,7 @@ const UserForm = ({ isNewUser, userData, history, officers, setAlert }) => {
   });
 
   useEffect(() => {
-    const updatedData = { ...formData, ...userData };
-    if (updatedData.superior) {
-      updatedData.superior = officers.filter(
-        officer => officer._id === updatedData.superior._id
-      )[0];
-    }
-    setFormData(updatedData);
+    setFormData({ ...formData, ...userData });
   }, [userData]);
 
   const handleFormChange = e => {
@@ -134,4 +134,6 @@ const mapStateToProps = state => ({
   officers: state.officers,
 });
 
-export default connect(mapStateToProps, { setAlert })(UserForm);
+export default connect(mapStateToProps, { setAlert, addUser, updateUser })(
+  UserForm
+);
