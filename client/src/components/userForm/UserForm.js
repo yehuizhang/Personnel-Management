@@ -58,8 +58,13 @@ const UserForm = ({
   });
 
   useEffect(() => {
+    if (userData.superior && officers) {
+      userData.superior = officers.filter(
+        officer => officer.id === userData.superior.id
+      )[0];
+    }
     setFormData({ ...formData, ...userData });
-  }, [userData]);
+  }, [userData, officers]);
 
   const handleFormChange = e => {
     switch (e.target.name) {
@@ -134,6 +139,8 @@ const mapStateToProps = state => ({
   officers: state.officers,
 });
 
-export default connect(mapStateToProps, { setAlert, addUser, updateUser })(
-  UserForm
-);
+export default connect(mapStateToProps, {
+  setAlert,
+  addUser,
+  updateUser,
+})(UserForm);

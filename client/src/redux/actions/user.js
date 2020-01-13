@@ -1,3 +1,5 @@
+import { RESET_CURRENT_USER } from '../types';
+
 export const filterUserData = async formData => {
   const user = { ...formData };
 
@@ -44,5 +46,11 @@ const convertImgToBinary = async file => {
       reject('Converting image to binary failed.');
     };
     fileReader.readAsDataURL(file);
+  });
+};
+
+export const resetCurrentUser = () => dispatch => {
+  dispatch({
+    type: RESET_CURRENT_USER,
   });
 };
