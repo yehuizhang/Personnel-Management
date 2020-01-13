@@ -155,21 +155,23 @@ const UserInfo = ({ handleFormChange, user, officers }) => {
           onChange={handleFormChange}
         />
       </Grid>
-      <Grid item xs={12} md={6}>
-        <Typography variant="h6" className={classes.title}>
-          Direct Subordinates
-        </Typography>
-        <List>
-          {user.dsList.map(ds => (
-            <ListItem>
-              <ListItemIcon>
-                <FaceIcon />
-              </ListItemIcon>
-              <ListItemText primary={ds.name} secondary={ds.rank} />
-            </ListItem>
-          ))}
-        </List>
-      </Grid>
+      {user.dsList && user.dsList.length > 0 && (
+        <Grid item xs={12} md={6}>
+          <Typography variant="h6" className={classes.title}>
+            Direct Subordinates
+          </Typography>
+          <List>
+            {user.dsList.map(ds => (
+              <ListItem>
+                <ListItemIcon>
+                  <FaceIcon />
+                </ListItemIcon>
+                <ListItemText primary={ds.name} secondary={ds.rank} />
+              </ListItem>
+            ))}
+          </List>
+        </Grid>
+      )}
     </Grid>
   );
 };
