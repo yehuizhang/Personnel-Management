@@ -106,7 +106,7 @@ const UserInfo = ({ handleFormChange, user, officers }) => {
           <InputLabel>Superior</InputLabel>
           <Select
             name="superior"
-            value={user.superior.id}
+            value={user.superior}
             onChange={handleFormChange}
           >
             <MenuItem value={''}>None</MenuItem>

@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     maxWidth: theme.spacing(35),
   },
+  uploadImage: {
+    display: 'none',
+  },
 }));
 
 const Avatar = ({ user, handleFormChange }) => {
@@ -16,27 +19,27 @@ const Avatar = ({ user, handleFormChange }) => {
 
   return (
     <Grid
+      item
       container
       direction="column"
       justify="space-around"
       alignItems="center"
-      item
       xs={12}
       md={6}
     >
-      <Grid item xs={12}>
+      <Grid item align="center">
         <Typography component="h6" variant="h6" align="center">
           Avatar
         </Typography>
       </Grid>
-      <Grid item xs={12} align="center">
+      <Grid item align="center">
         <img
           src={user.avatar || rankMap.get(user.rank)}
           alt="avatar"
           className={classes.avatar}
         />
       </Grid>
-      <Grid item xs={12} align="center">
+      <Grid item align="center">
         <input
           type="file"
           accept="image/*"
