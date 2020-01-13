@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { LOAD_OFFICER } from '../types';
+import { LOAD_OFFICER } from '../../types';
+import { setAlert } from '../notifier';
 
-export const loadOfficers = setAlert => async dispatch => {
+const loadOfficers = () => async dispatch => {
   try {
     const res = await axios.get('/api/user/officers');
     dispatch({
@@ -10,6 +11,8 @@ export const loadOfficers = setAlert => async dispatch => {
     });
   } catch (error) {
     console.error(error);
-    setAlert('Load officer failed');
+    setAlert('Load officer failed')(dispatch);
   }
 };
+
+export default loadOfficers;

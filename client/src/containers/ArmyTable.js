@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import { loadUserList, updateParams } from '../redux/actions/userList';
-import { deleteUser } from '../redux/actions/userActions/deleteUser';
+import deleteUser from '../redux/actions/userActions/deleteUser';
 import { SearchAppBar, TableHead, TableBody } from '../components/armyTable';
 
 import {

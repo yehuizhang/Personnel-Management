@@ -2,9 +2,7 @@ import { LOAD_USER_SUCCESS, RESET_CURRENT_USER } from '../types';
 
 const initialState = {
   isNew: true,
-  userData: {
-    minRank: 0,
-  },
+  userData: {},
 };
 
 export default function(state = initialState, action) {
