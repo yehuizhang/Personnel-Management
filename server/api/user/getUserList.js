@@ -45,7 +45,6 @@ const resultProcess = result => {
   const users = docs.map(doc => {
     doc = doc.toObject();
     const user = { ...doc, id: doc._id };
-    delete user.__v;
     delete user._id;
     if (user.superior) {
       user.superior = {

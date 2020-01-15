@@ -23,7 +23,6 @@ const getUserById = async (id, res) => {
 
 const resultProcess = async result => {
   const user = result.toObject();
-  if (user.__v) delete user.__v;
   user.id = user._id;
   delete user._id;
   if (user.superior) {
