@@ -3,11 +3,10 @@ const User = require('../../models/users');
 // sort by length of dsList
 // https://stackoverflow.com/questions/9040161/mongo-order-by-length-of-array
 
-const getUserList = async (
-  { sortBy, sortDirection, search, page, users },
-  res
-) => {
+const getUserList = ({ sortBy, sortDirection, search, page, users }, res) => {
+  // console.time('Measure getUserList time');
   const options = {
+    lean: true,
     page: page || 1,
     limit: 5,
     populate: { path: 'superior', select: ['id', 'name'] },
@@ -31,19 +30,18 @@ const getUserList = async (
     }));
   }
 
-  try {
-    const result = await User.paginate(query, options);
-    return res.json(resultProcess(result));
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).send('Unable to retrieve user list from db');
-  }
+  User.paginate(query, options, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('Unable to retrieve user list from db');
+    }
+    res.json(resultProcess(result));
+  });
 };
 
 const resultProcess = result => {
   const { docs, page, totalPages, totalDocs } = result;
   const users = docs.map(doc => {
-    doc = doc.toObject();
     const user = { ...doc, id: doc._id };
     delete user._id;
     if (user.superior) {
@@ -57,6 +55,7 @@ const resultProcess = result => {
     }
     return user;
   });
+  // console.timeEnd('Measure getUserList time');
   return {
     users,
     page,
