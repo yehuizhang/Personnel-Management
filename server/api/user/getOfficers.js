@@ -2,7 +2,7 @@ const User = require('../../models/users');
 const { rankToNumber } = require('./util');
 
 const getOfficers = res => {
-  console.time('Get officer time');
+  // console.time('Get officer time');
   User.find(
     { rank: { $ne: 'Private' } },
     'name rank',
@@ -14,7 +14,7 @@ const getOfficers = res => {
       }
       docs.sort((a, b) => rankToNumber[a.rank] - rankToNumber[b.rank]);
       docs = docs.map(doc => ({ id: doc._id, rank: doc.rank, name: doc.name }));
-      console.timeEnd('Get officer time');
+      // console.timeEnd('Get officer time');
       return res.json({ officers: docs });
     }
   );
