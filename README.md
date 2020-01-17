@@ -54,3 +54,22 @@ npx install-peerdeps --dev eslint-config-airbnb
 
 Server: `npm run server`
 Client: `npm run client`
+both: `npm start`
+
+## Improvement
+
+- Measure the performance
+- writting unit tests
+- Improve the mechanism of executing async functions
+
+### Client side
+
+-
+
+### Server side
+
+- Improve database schema and query
+  - Try to use less `.populate()`
+- Use redis to cache database results
+- containerization
+- (Optional) Use aws to keep image files
