@@ -61,10 +61,11 @@ both: `npm start`
 - Measure the performance
 - writting unit tests
 - Improve the mechanism of executing async functions
+- Rewrite the application in typescript
 
 ### Client side
 
--
+- Add Authtication mechanisms
 
 ### Server side
 
