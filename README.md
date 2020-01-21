@@ -62,6 +62,7 @@ both: `npm start`
 - writting unit tests
 - Improve the mechanism of executing async functions
 - Rewrite the application in typescript
+- Containerization
 
 ### Client side
 
@@ -73,4 +74,5 @@ both: `npm start`
   - Try to use less `.populate()`
 - Use redis to cache database results
 - containerization
+- Create another branch and try to use NGINX
 - (Optional) Use aws to keep image files
