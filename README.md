@@ -1,6 +1,6 @@
-# User List
+# Employee Management System
 
-This is a course project assgined by USTSV Javascript course
+A web application allows user make CRUD operations on user's profile.
 
 ## Introduction
 
@@ -67,6 +67,7 @@ both: `npm start`
 ### Client side
 
 - Add Authtication mechanisms
+- Use Redux reselect to improve performance
 
 ### Server side
 
@@ -76,3 +77,6 @@ both: `npm start`
 - containerization
 - Create another branch and try to use NGINX
 - (Optional) Use aws to keep image files
+- measure the performance of API with
+
+## Improvements
