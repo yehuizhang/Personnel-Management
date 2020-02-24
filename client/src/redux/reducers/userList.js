@@ -12,6 +12,7 @@ const initialState = {
     page: 1,
     totalPages: 1,
     totalDocs: 0,
+    tableKey: Date.now(),
   },
 };
 
@@ -34,6 +35,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         data: initialState.data,
+        tableKey: Date.now(),
       };
     case USERLIST_UPDATE_PARAMS:
       return {

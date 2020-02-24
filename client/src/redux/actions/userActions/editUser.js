@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { RESET_CURRENT_USER } from '../../types';
 
 import { axiosJSONConfig } from '../config';
 import { setAlert } from '../notifier';

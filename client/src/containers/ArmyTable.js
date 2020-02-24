@@ -31,6 +31,7 @@ const ArmyTable = ({
   page,
   totalPages,
   totalDocs,
+  tableKey,
   loadUserList,
   updateParams,
   deleteUser,
@@ -110,7 +111,7 @@ const ArmyTable = ({
         handleReset={handleReset}
         handleCreateNewSoldier={handleCreateNewSoldier}
       />
-      <TableContainer>
+      <TableContainer key={tableKey}>
         <InfiniteScroll
           pageStart={0}
           loadMore={() => loadUserList(params, page)}
@@ -166,8 +167,8 @@ const ArmyTable = ({
 
 const mapStateToProps = state => {
   const { params, data } = state.userList;
-  const { users, page, totalPages, totalDocs } = data;
-  return { params, users, page, totalPages, totalDocs };
+  const { users, page, totalPages, totalDocs, tableKey } = data;
+  return { params, users, page, totalPages, totalDocs, tableKey };
 };
 
 export default connect(mapStateToProps, {
