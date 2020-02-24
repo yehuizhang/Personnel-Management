@@ -1,7 +1,7 @@
 {
-    "name": "mern-template",
+    "name": "personnel-management",
     "version": "1.0.0",
-    "description": "a template that provides basic packages for mern web application",
+    "description": "A MERN stack based web application to manage personals",
     "scripts": {
         "server": "npm start --prefix server",
         "client": "npm start --prefix client",
